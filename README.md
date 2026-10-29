@@ -40,11 +40,3 @@ Faire de **Kours** un espace d'apprentissage collaboratif où chaque étudiant p
 > *Un cours partagé, des connaissances multipliées !*
 
 ---
-
-## Maquettes UI/UX
-
-Les maquettes de l'application Kours ont été conçues sur Figma afin de présenter l'interface utilisateur et le parcours de navigation.
-
-**[Consulter les maquettes sur Figma](https://www.figma.com/design/4yiIOOmfZNFNbVzCRU4Seh/DESIGN-KOURS?node-id=0-1&t=bdZBuUDFeGcm9Hjz-1)**
-
-**Projet universitaire** — Plateforme de partage de ressources pédagogiques.
