@@ -15,9 +15,9 @@ const HeroSection: React.FC = () => {
     };
 
     return (
-        <section className="relative flex min-h-[600px] items-center px-6 py-16 text-white lg:px-16 lg:py-24">
+        <section className=" flex min-h-[600px]  text-white ">
 
-            <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-12">
+            <div className="px-30 grid w-full grid-cols-1 lg:grid-cols-12">
 
                 {/* COLONNE GAUCHE : Textes et recherche */}
                 <div className="flex flex-col justify-center space-y-6 lg:col-span-7">
@@ -88,7 +88,7 @@ const HeroSection: React.FC = () => {
                 {/* COLONNE DROITE : Illustrations */}
                 <div className="relative mt-8 flex items-center justify-center lg:col-span-5 lg:mt-0">
 
-                    <div className="relative w-full max-w-[540px]">
+                    <div className="relative w-full">
 
                         {/* Aperçu principal */}
                         <img
@@ -98,7 +98,7 @@ const HeroSection: React.FC = () => {
                         />
 
                         {/* Carte nouveau cours */}
-                        <div className="absolute -bottom-4 -left-4 w-[170px] drop-shadow-xl sm:-left-8 sm:w-[220px]">
+                        <div className="relative -top-0 -left-6 w-[170px] drop-shadow-xl sm:-left-8 sm:w-[220px]">
                             <img
                                 src={CardNewCourseImg}
                                 alt="Notification nouveau cours"
