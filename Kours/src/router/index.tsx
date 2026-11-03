@@ -13,7 +13,6 @@ const RootLayout = () => (
             <Outlet />
     </div>
 );
-
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -24,7 +23,8 @@ export const router = createBrowserRouter([
             { path: '/explore', element: <Explore /> },
             { path: '/domains', element: <Domains /> },
             { path: '/how-it-works', element: <Home /> },
-            { path: '/Auth', element: <Auth/> },
+            { path: '/auth', element: <Auth isLogin={true} /> },
+            { path: '/register', element: <Auth isLogin={false} /> },
             { path: '/dashboard', element: <Dashboard /> },
         ],
     },

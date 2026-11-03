@@ -35,10 +35,10 @@ export default function Dashboard() {
 
                 {/* Encadré d'appel à l'action bas de sidebar */}
                 <div
-                    className="relative   p-5 text-white bg-cover bg-center rounded-xl overflow-hidden flex flex-col justify-between"
-                    style={{ backgroundImage: `url(${background})` }}
+                    className="relative    bg-red-500 p-5 text-white bg-cover bg-center rounded-xl flex flex-col justify-between"
+                    style={{ backgroundImage: `url(${background})`, backgroundSize: 'zoom', backgroundPosition: 'center' }}
                 >
-
+                    
                     {/* Contenu de la carte */}
                     <div className="relative z-10">
                         <h4 className="font-bold text-sm mb-1">Ensemble<br />on va plus loin !</h4>
