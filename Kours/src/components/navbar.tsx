@@ -2,17 +2,13 @@ import { Link, NavLink } from 'react-router-dom';
 import Logo from './Logo';
 
 
-interface props
-{
-    isBlured?:boolean;
-}
 export default function Navbar() {
     const linkStyle = ({ isActive }: { isActive: boolean }) =>
         `hover:text-amber-400 transition-colors ${isActive ? 'text-amber-400 font-semibold' : 'text-white'
         }`;
 
     return (
-<nav className="sticky top-0 z-50 flex w-full items-center justify-between  px-8 py-4 text-white shadow-md">            
+        <nav className="sticky bg-gradient-to-r from-[#0B1440] via-[#1B2E8F] to-[#2F5BEA] top-0 z-50 flex w-full items-center justify-between  px-8 py-4 text-white shadow-md">            
             <Logo />
             {/* Liens centraux */}
             <div className="flex items-center gap-8 text-sm">
