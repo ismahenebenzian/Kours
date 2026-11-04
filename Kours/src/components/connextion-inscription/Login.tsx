@@ -1,11 +1,7 @@
-import { useNavigate } from "react-router-dom";
-
 interface props{
     setIsLogin: (isLogin: boolean) => void;
 }
 export default function Login  ({setIsLogin}:props) {
-    const navigate = useNavigate();
-
     return (
         <div>
                 <div className="mb-6">
@@ -51,7 +47,7 @@ export default function Login  ({setIsLogin}:props) {
 
                 <p className="text-center text-xs text-slate-500 mt-6">
                   Pas encore de compte ?{' '}
-                  <button onClick={() => navigate('/dashboard')} className="text-indigo-600 font-semibold hover:underline">
+                  <button onClick={() => setIsLogin(false)} className="text-indigo-600 font-semibold hover:underline">
                     Créer un compte
                   </button>
                 </p>
