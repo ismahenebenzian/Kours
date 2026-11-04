@@ -26,13 +26,13 @@ export default function Navbar() {
             {/* Boutons d'action */}
             <div className="flex items-center gap-4 text-sm">
                 <Link
-                    to="/Auth#login"
+                    to="/login"
                     className="px-5 py-2 rounded-lg border border-white/40 hover:bg-white/10 transition-colors"
                 >
                     Se connecter
                 </Link>
                 <Link
-                    to="/Auth#register"
+                    to="/register"
                     className="px-5 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold transition-colors"
                 >
                     Créer un compte
