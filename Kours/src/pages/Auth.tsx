@@ -1,16 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Login from '../components/connextion-inscription/Login';
 import Register from '../components/connextion-inscription/Register';
 import Logo from '../components/Logo';
+import { useLocation } from 'react-router-dom';
 
 interface AuthProps {
   isLogin?: boolean;
 }
 
 export default function Auth({ isLogin }: AuthProps) {
-  const [isLoginState, setIsLoginState] = useState(isLogin);
+  const [isLoginState, setIsLoginState] = useState(isLogin ?? true);
+  const location = useLocation();
 
-  
+  useEffect(() => {
+    if (location.pathname === '/auth' && isLogin !== undefined) {
+      setIsLoginState(isLogin);
+    }
+    else if (location.pathname === '/register') {
+      setIsLoginState(false);
+    }
+  }, [isLogin]);
+
   return (
     <div className="min-h-screen w-full bg-slate-50 flex flex-col lg:flex-row">
       
@@ -68,7 +78,7 @@ export default function Auth({ isLogin }: AuthProps) {
               type="button"
               onClick={() => setIsLoginState(false)}
               className={`flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-xl transition-all ${
-                !isLoginState /* CORRIGÉ : utilise bien isLoginState ici */
+                !isLoginState
                   ? 'bg-white text-slate-900 shadow-sm'
                   : 'text-slate-500 hover:text-slate-900'
               }`}
@@ -79,7 +89,7 @@ export default function Auth({ isLogin }: AuthProps) {
 
           {/* Formulaire dynamique */}
           {isLoginState ? (
-            <Login setIsLogin={setIsLoginState} />
+            <Login  />
           ) : (
             <Register setIsLogin={setIsLoginState} />
           )}
