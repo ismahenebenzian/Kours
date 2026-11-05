@@ -5,6 +5,7 @@ import { ShareCourseButton } from "../components/Dashboard/CTA-btn";
 import DashHome from "../components/Dashboard/Dash-home";
 import Profile from "../components/Dashboard/Profile";
 import { useState } from "react";
+import MesCours from "../components/Dashboard/MesCours";
 
 
 const DashNav = ["Accueil", "Mes cours", "Espaces privés", "Explorer", "Profil"];
@@ -77,7 +78,7 @@ export default function Dashboard() {
                     </div>
                 </header>
                 { activeNav === "Accueil" && <DashHome />}
-                { activeNav === "Mes cours" && <div className="p-6 sm:p-8 space-y-6">Mes cours</div>}
+                { activeNav === "Mes cours" && <div className="p-6 sm:p-8 space-y-6"><MesCours /></div>}
                 { activeNav === "Espaces privés" && <div className="p-6 sm:p-8 space-y-6">Espaces privés</div>}
                 { activeNav === "Explorer" && <div className="p-6 sm:p-8 space-y-6">Explorer</div>}
                 { activeNav === "Profil" && <div className="p-6 sm:p-8 space-y-6"><Profile /></div>}

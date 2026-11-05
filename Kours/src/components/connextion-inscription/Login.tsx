@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-interface props{
-    setIsLogin: (isLogin: boolean) => void;
-}
-export default function Login  ({setIsLogin}:props) {
+export default function Login  () {
     const navigate = useNavigate();
 
     return (
@@ -44,6 +41,7 @@ export default function Login  ({setIsLogin}:props) {
                   <button
                     type="submit"
                     className="w-full mt-2 bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold py-3 px-4 rounded-xl transition-colors shadow-sm text-sm"
+                  onClick={() => navigate('/dashboard')}
                   >
                     Se connecter
                   </button>
@@ -51,7 +49,7 @@ export default function Login  ({setIsLogin}:props) {
 
                 <p className="text-center text-xs text-slate-500 mt-6">
                   Pas encore de compte ?{' '}
-                  <button onClick={() => navigate('/dashboard')} className="text-indigo-600 font-semibold hover:underline">
+                  <button onClick={() => navigate('/register')} className="text-indigo-600 font-semibold hover:underline">
                     Créer un compte
                   </button>
                 </p>
