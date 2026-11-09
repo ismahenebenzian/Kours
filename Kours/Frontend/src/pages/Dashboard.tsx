@@ -1,4 +1,4 @@
-import { BellIcon, BookIcon, HomeIcon, LockIcon, NotepadTextDashedIcon, SearchIcon } from "lucide-react";
+import { BellIcon, BookIcon, FileQuestionMarkIcon, HomeIcon, LockIcon, NotepadTextDashedIcon, SearchIcon } from "lucide-react";
 import Logo from "../components/Logo";
 import background from "../assets/Dashboard/background.svg";
 import { ShareCourseButton } from "../components/Dashboard/CTA-btn";
@@ -7,6 +7,7 @@ import Profile from "../components/Dashboard/Profile";
 import { useState } from "react";
 import MesCours from "../components/Dashboard/MesCours";
 import Notes from "../components/Dashboard/Note";
+import Quiz from "../components/Dashboard/Quiz";
 
 
 const DashNav = ["Accueil", "Mes cours", "Espaces privés", "Explorer", "Profil"];
@@ -45,6 +46,11 @@ export default function Dashboard() {
                             <SearchIcon className="w-4 h-4" />
                             <span>Explorer</span>
                         </button>
+                        <button onClick={() => setActiveNav("Quiz")} className={`flex items-center space-x-3 px-4 py-3 rounded-xl ${activeNav === "Quiz" ? "bg-indigo-600 text-white" : "hover:bg-slate-800 text-slate-400"} font-medium text-sm shadow-sm w-full`}>
+                            <FileQuestionMarkIcon className="w-4 h-4" />
+                            <span>Quiz</span>
+                        </button>
+                       
                         
                     </nav>
                 </div>
@@ -89,6 +95,7 @@ export default function Dashboard() {
                 { activeNav === "Explorer" && <div className="p-6 sm:p-8 space-y-6">Explorer</div>}
                 { activeNav === "Profil" && <div className="p-6 sm:p-8 space-y-6"><Profile /></div>}
                 { activeNav === "Notes" && <div className="p-6 sm:p-8 space-y-6"><Notes /></div>}
+                { activeNav === "Quiz" && <div className="p-6 sm:p-8 space-y-6"><Quiz /></div>}
             </main>
         </div>
     );
