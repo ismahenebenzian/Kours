@@ -11,4 +11,7 @@ export type Course = {
   rating: number | string;
   likes: number;
   comments: number;
+  previewImage?: string;
+  extensions?: string[]; // ex: ['PDF', 'DOCX', 'ZIP']
+  downloadUrl?: string;
 }

@@ -1,4 +1,4 @@
-import { BellIcon, BookIcon, HomeIcon, LockIcon, SearchIcon } from "lucide-react";
+import { BellIcon, BookIcon, HomeIcon, LockIcon, NotepadTextDashedIcon, SearchIcon } from "lucide-react";
 import Logo from "../components/Logo";
 import background from "../assets/Dashboard/background.svg";
 import { ShareCourseButton } from "../components/Dashboard/CTA-btn";
@@ -6,6 +6,7 @@ import DashHome from "../components/Dashboard/Dash-home";
 import Profile from "../components/Dashboard/Profile";
 import { useState } from "react";
 import MesCours from "../components/Dashboard/MesCours";
+import Notes from "../components/Dashboard/Note";
 
 
 const DashNav = ["Accueil", "Mes cours", "Espaces privés", "Explorer", "Profil"];
@@ -32,6 +33,10 @@ export default function Dashboard() {
                             <BookIcon className="w-4 h-4" />
                             <span>Mes cours</span>
                         </button>
+                        <button onClick={() => setActiveNav("Notes")} className={`flex items-center space-x-3 px-4 py-3 rounded-xl ${activeNav === "Notes" ? "bg-indigo-600 text-white" : "hover:bg-slate-800 text-slate-400"} font-medium text-sm shadow-sm w-full`}>
+                            <NotepadTextDashedIcon className="w-4 h-4" />
+                            <span>Notes</span>
+                        </button>
                         <button onClick={() => setActiveNav("Espaces privés")} className={`flex items-center space-x-3 px-4 py-3 rounded-xl ${activeNav === "Espaces privés" ? "bg-indigo-600 text-white" : "hover:bg-slate-800 text-slate-400"} font-medium text-sm shadow-sm w-full`}>
                             <LockIcon className="w-4 h-4" />
                             <span>Espaces privés</span>
@@ -40,6 +45,7 @@ export default function Dashboard() {
                             <SearchIcon className="w-4 h-4" />
                             <span>Explorer</span>
                         </button>
+                        
                     </nav>
                 </div>
                 <div className="flex flex-col items-center gap-4">
@@ -82,6 +88,7 @@ export default function Dashboard() {
                 { activeNav === "Espaces privés" && <div className="p-6 sm:p-8 space-y-6">Espaces privés</div>}
                 { activeNav === "Explorer" && <div className="p-6 sm:p-8 space-y-6">Explorer</div>}
                 { activeNav === "Profil" && <div className="p-6 sm:p-8 space-y-6"><Profile /></div>}
+                { activeNav === "Notes" && <div className="p-6 sm:p-8 space-y-6"><Notes /></div>}
             </main>
         </div>
     );

@@ -8,12 +8,14 @@ import {
 import FiltersCard from './FiltersCard';
 import StatsCard from './StatsCard';
 import CoursCard from './CourCard';
+import AddCoursForm from './AddCoursForm';
 
 
 type filters = 'deposes' | 'favoris' | 'quiz' | 'notes';
-export default function Dashboard() {
+export default function MesCours() {
   const [activeTab, setActiveTab] = useState<filters>('deposes');
   const filters: filters[] = ['deposes', 'favoris', 'quiz', 'notes'];
+  const [addcoursDisplay, setAddcoursDisplay] = useState(false);
 
   // Données factices calquées sur votre maquette
   const courses: Course[] = [
@@ -116,11 +118,11 @@ export default function Dashboard() {
         {/* SECTION INFÉRIEURE : Bannière "Partage un nouveau cours" */}
         <div className="border-2 border-dashed border-indigo-200 bg-indigo-50/30 rounded-3xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0 hover:bg-indigo-200 transition-colors" onClick={() => {setAddcoursDisplay(true)}} >
               <Plus className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="font-bold text-slate-900 text-base">Partage un nouveau cours</h4>
+              <h4 className="font-bold text-slate-900 text-base">Ajouter un nouveau cours</h4>
               <p className="text-xs text-slate-500 mt-0.5">Dépose 1 à 2 cours pour débloquer les lectures illimitées.</p>
             </div>
           </div>
@@ -131,7 +133,9 @@ export default function Dashboard() {
             Déposer maintenant
           </button>
         </div>
-
+        {addcoursDisplay && (
+            <AddCoursForm setAddcoursDisplay={setAddcoursDisplay} />
+        )}
       </div>
     </div>
   );
