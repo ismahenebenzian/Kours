@@ -15,3 +15,23 @@ export type Course = {
   extensions?: string[]; // ex: ['PDF', 'DOCX', 'ZIP']
   downloadUrl?: string;
 }
+
+
+
+ export type Question = {
+    id: number;
+    text: string;
+    options: Option[];
+    isExpanded: boolean;
+}
+
+export type Option = {
+    id: string;
+    text: string;
+    isCorrect: boolean;
+}
+
+export type CreateQuizProps = {
+    onSave?: (quizData: any) => void;
+    onPublish?: (quizData: any) => void;
+}
