@@ -4,15 +4,16 @@ import Explore from '../pages/Explore';
 import Domains from '../pages/Domains';
 import Auth from '../pages/Auth';
 import NotFound from '../pages/NotFound';
-import App from '../App'
+import App from '../App';
 import Dashboard from '../pages/Dashboard';
+import ProtectedRoute from './ProtectedRoute'; // Assurez-vous du bon chemin d'importation
 
-// Layout principal incluant la Navbar sur toutes les pages
 const RootLayout = () => (
     <div className="w-full">
-            <Outlet />
+        <Outlet />
     </div>
 );
+
 export const router = createBrowserRouter([
     {
         path: '/',
@@ -25,7 +26,13 @@ export const router = createBrowserRouter([
             { path: '/how-it-works', element: <Home /> },
             { path: '/auth', element: <Auth isLogin={true} /> },
             { path: '/register', element: <Auth isLogin={false} /> },
-            { path: '/dashboard', element: <Dashboard /> },
+
+            {
+                element: <ProtectedRoute />,
+                children: [
+                    { path: '/dashboard', element: <Dashboard /> },
+                ],
+            },
         ],
     },
 ]);

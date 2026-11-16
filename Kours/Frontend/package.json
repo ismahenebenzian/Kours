@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.119.0",
     "@tailwindcss/vite": "^4.3.4",
     "@tiptap/extension-highlight": "^3.33.0",
     "@tiptap/extension-link": "^3.33.0",

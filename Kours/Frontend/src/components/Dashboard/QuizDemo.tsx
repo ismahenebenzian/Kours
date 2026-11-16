@@ -1,33 +1,30 @@
 import { useState } from 'react';
 import { X, ChevronLeft,  XCircle, RotateCcw, BookOpen } from 'lucide-react';
-import type { Question } from '../Types';
+import type { Question,QuizDemoProps } from '../Types';
+import PopUp from '../PopUp';
 
-interface QuizDemoProps {
-    questions: Question[];
-    quizTitle?: string;
-    onClose: () => void;
-}
+
 
 export default function QuizDemo({ questions, quizTitle = "Quiz interactif", onClose }: QuizDemoProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
     const [isFinished, setIsFinished] = useState(false);
+    
+   
 
     if (!questions || questions.length === 0) {
         return (
-            <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex flex-col items-center justify-center p-4">
-                <div className="bg-white rounded-3xl p-8 max-w-md w-full text-center space-y-4 shadow-2xl">
-                    <h3 className="text-xl font-bold text-slate-900">Aucune question disponible</h3>
+            <PopUp >
+                <h3 className="text-xl font-bold text-slate-900">Aucune question disponible</h3>
                     <p className="text-sm text-slate-500">Veuillez ajouter au moins une question pour lancer la démo.</p>
                     <button
                         type="button"
-                        onClick={onClose}
+                        onClick={()=>{onClose();}}
                         className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-2xl transition-all cursor-pointer"
                     >
                         Fermer
                     </button>
-                </div>
-            </div>
+            </PopUp>
         );
     }
 
