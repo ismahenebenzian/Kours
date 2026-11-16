@@ -1,8 +1,21 @@
 -- CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci -> gérer accents et caractères spéciaux
 CREATE DATABASE IF NOT EXISTS `Kours` 
+<<<<<<< HEAD
+CHARACTER SET utf8mb4 
+COLLATE utf8mb4_0900_ai_ci;
+create user if not exists'user'@'localhost' IDENTIFIED BY 'user';
+grant all privileges on `Kours`.* to 'user' @'localhost';
+FLUSH privileges;
+
+USE `Kours`;
+>>>>>>> Stashed changes
+
+
+=======
 	CHARACTER SET utf8mb4 
     COLLATE utf8mb4_0900_ai_ci;
 USE `Kours`;
+>>>>>>> origin/main
 
 CREATE TABLE `etablissements` (
   `id_etablissement` int PRIMARY KEY AUTO_INCREMENT,
@@ -301,4 +314,7 @@ ALTER TABLE `utilisateurs` ADD FOREIGN KEY (`id_utilisateur`) REFERENCES `quotas
 ALTER TABLE `notifications` ADD FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateurs` (`id_utilisateur`) ON DELETE CASCADE;
 
 
+<<<<<<< HEAD
+=======
 SHOW TABLES;
+>>>>>>> origin/main
