@@ -5,8 +5,18 @@ import Domains from '../pages/Domains';
 import Auth from '../pages/Auth';
 import NotFound from '../pages/NotFound';
 import App from '../App';
-import Dashboard from '../pages/Dashboard';
-import ProtectedRoute from './ProtectedRoute'; // Assurez-vous du bon chemin d'importation
+import ProtectedRoute from './ProtectedRoute';
+
+// Imports pour le Dashboard
+import DashboardLayout from '../pages/Dashboard'; // Ton composant modifié ci-dessus
+import DashHome from '../components/Dashboard/Dash-home';
+import MesCours from '../components/Dashboard/MesCours';
+import Notes from '../components/Dashboard/Note';
+import EspacesPrives from '../components/Dashboard/EspacesPrive';
+import DashExplore from '../components/Dashboard/Explore';
+import Quiz from '../components/Dashboard/Quiz';
+import Profile from '../components/Dashboard/Profile';
+import CourseDetail from '../pages/CoursDetail';
 
 const RootLayout = () => (
     <div className="w-full">
@@ -30,7 +40,21 @@ export const router = createBrowserRouter([
             {
                 element: <ProtectedRoute />,
                 children: [
-                    { path: '/dashboard', element: <Dashboard /> },
+                    {
+                        path: '/dashboard',
+                        element: <DashboardLayout />,
+                        children: [
+                            { index: true, element: <DashHome /> },
+                            { path: 'mes-cours', element: <MesCours /> },
+                            { path: 'notes', element: <Notes /> },
+                            { path: 'espaces-prives', element: <EspacesPrives /> },
+                            { path: 'explorer', element: <DashExplore /> }, 
+                            
+                            { path: 'quiz', element: <Quiz /> },
+                            { path: 'profil', element: <Profile /> },
+                            { path: 'cours/:id', element: <CourseDetail /> },
+                        ],
+                    },
                 ],
             },
         ],

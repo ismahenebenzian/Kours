@@ -1,18 +1,18 @@
 import { useState } from "react";
 import type { Course } from "../Types";
-import { Star, X, Save, Download, FileText, FileCode, FileArchive, ArrowDownToLine } from "lucide-react";
+import { Star, X, Save, FileText, FileCode, FileArchive, ArrowDownToLine } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // 1. Importe useNavigate
 
-// Extension étendue du type Course pour inclure éventuellement les extensions et l'URL de téléchargement/aperçu
 interface ExtendedCourse extends Course {
   previewImage?: string;
-  extensions?: string[]; // ex: ['PDF', 'DOCX', 'ZIP']
+  extensions?: string[];
   downloadUrl?: string;
 }
 
 export default function CoursCard({ course }: { course: ExtendedCourse }) {
   const [modificationDisplay, setModificationDisplay] = useState(false);
+  const navigate = useNavigate(); // 2. Initialise le hook de navigation
   
-  // États locaux pour le formulaire d'édition en plein écran
   const [title, setTitle] = useState(course.title);
   const [type, setType] = useState(course.type);
   const [status, setStatus] = useState(course.status);
@@ -21,7 +21,6 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
   const [university, setUniversity] = useState(course.university);
   const [year, setYear] = useState(course.year);
   
-  // Extensions par défaut si non fournies (ex: PDF principal + Fichiers sources)
   const extensionsList = course.extensions || ['PDF', 'ZIP'];
 
   const handleSave = (e: React.FormEvent) => {
@@ -30,7 +29,6 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
     setModificationDisplay(false);
   };
 
-  // Fonction pour afficher l'icône selon l'extension
   const getExtensionIcon = (ext: string) => {
     switch (ext.toUpperCase()) {
       case 'PDF': return <FileText className="w-4 h-4 text-rose-500" />;
@@ -41,11 +39,11 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
 
   return (
     <>
-      {/* CARTE NORMALE DANS LA GRILLE */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow">
+      <div 
+        className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow cursor-pointer" 
+        onClick={() => navigate(`/dashboard/cours/${course.id}`)}
+      >
         <div className="space-y-4">
-          
-          {/* APERÇU DU DOCUMENT (Image ou miniature stylisée) */}
           <div className="w-full h-36 bg-indigo-50/70 rounded-2xl flex items-center justify-center relative overflow-hidden group border border-indigo-100/50">
             {course.previewImage ? (
               <img 
@@ -61,7 +59,6 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
               </div>
             )}
 
-            {/* Badge des extensions disponibles sur l'aperçu */}
             <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-white/90 backdrop-blur-xs px-2 py-1 rounded-lg shadow-xs border border-slate-100">
               {extensionsList.map((ext, idx) => (
                 <span key={idx} className="text-[10px] font-bold text-slate-700 uppercase px-1.5 py-0.5 bg-slate-100 rounded">
@@ -71,7 +68,6 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
             </div>
           </div>
 
-          {/* Badges : Type & Statut */}
           <div className="flex items-center justify-between gap-2">
             <span className="bg-indigo-50 text-indigo-700 font-semibold text-xs px-3 py-1 rounded-full">
               {course.type}
@@ -85,12 +81,10 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
             </span>
           </div>
 
-          {/* Titre du cours */}
           <h3 className="font-bold text-slate-900 text-lg leading-snug">
             {course.title}
           </h3>
 
-          {/* Métadonnées du cours */}
           <p className="text-xs text-slate-500 leading-relaxed">
             {course.domain} · {course.level} · {course.university}<br />
             {course.author} · {course.year}
@@ -98,7 +92,6 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
         </div>
 
         <div className="space-y-4 pt-4 border-t border-slate-100">
-          {/* Statistiques du cours */}
           <div className="flex items-center justify-between text-xs text-slate-600 font-medium">
             <div className="flex items-center gap-1">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
@@ -110,18 +103,21 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
             </div>
           </div>
 
-          {/* Boutons d'action : Modifier / Supprimer */}
           <div className="grid grid-cols-2 gap-3">
             <button 
               type="button"
               className="py-2.5 px-4 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs rounded-xl border border-slate-200 shadow-sm transition-colors text-center cursor-pointer"
-              onClick={() => setModificationDisplay(true)}
+              onClick={(e) => {
+                e.stopPropagation(); // Empêche la redirection vers la page du cours
+                setModificationDisplay(true);
+              }}
             >
               Modifier
             </button>
             <button 
               type="button"
               className="py-2.5 px-4 bg-white hover:bg-rose-50 text-rose-600 font-semibold text-xs rounded-xl border border-rose-100 shadow-sm transition-colors text-center cursor-pointer"
+              onClick={(e) => e.stopPropagation()}
             >
               Supprimer
             </button>
@@ -132,9 +128,8 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
       {/* OVERLAY PLEIN ÉCRAN POUR LES DÉTAILS, L'APERÇU ET LA MODIFICATION */}
       {modificationDisplay && (
         <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex flex-col overflow-y-auto p-4 sm:p-8 animate-in fade-in duration-200">
-          <div className="max-w-4xl mx-auto w-full bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 sm:p-10 my-auto space-y-8">
+          <div className="max-w-4xl mx-auto w-full bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 sm:p-10 my-auto space-y-8" onClick={(e) => e.stopPropagation()}>
             
-            {/* En-tête */}
             <div className="flex items-center justify-between border-b border-slate-200 pb-6">
               <button
                 type="button"
@@ -153,16 +148,12 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
               </button>
             </div>
 
-            {/* SECTION APERÇU AGRANDI & LIENS DE TÉLÉCHARGEMENT MULTI-EXTENSIONS */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 p-6 rounded-3xl border border-slate-200/60 items-center">
-              
-              {/* Miniature grand format */}
               <div className="h-40 bg-indigo-100/60 rounded-2xl flex flex-col items-center justify-center border border-indigo-200/60 relative overflow-hidden">
                 <FileText className="w-12 h-12 text-indigo-600 mb-2" />
                 <span className="text-xs font-bold text-indigo-900">Aperçu du document</span>
               </div>
 
-              {/* Infos & Liens de téléchargement par extension */}
               <div className="md:col-span-2 space-y-4">
                 <div>
                   <h4 className="font-bold text-slate-900 text-sm">Fichiers téléchargeables</h4>
@@ -186,10 +177,8 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
               </div>
             </div>
 
-            {/* Formulaire complet de modification */}
             <form onSubmit={handleSave} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
                 <div className="md:col-span-2">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Titre du cours</label>
                   <input 
@@ -244,10 +233,8 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
                     className="w-full px-4 py-3 text-sm border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                   />
                 </div>
-
               </div>
 
-              {/* Boutons d'action */}
               <div className="flex items-center justify-end gap-4 pt-6 border-t border-slate-100">
                 <button
                   type="button"
@@ -265,7 +252,6 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
                 </button>
               </div>
             </form>
-
           </div>
         </div>
       )}

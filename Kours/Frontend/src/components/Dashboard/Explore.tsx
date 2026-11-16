@@ -64,12 +64,12 @@ export default function Explore() {
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
-=            <div className="flex flex-wrap items-center gap-2 border-b border-slate-200/60 pb-4">
+            <div className="flex flex-wrap items-center gap-2 border-b border-slate-200/60 pb-4">
                 <FiltersCard
                     filters={filterList}
                     activeFilter={activeTab}
                     onFilterChange={setActiveTab}
-                    getFilterCount={(filter) => {
+                    getFilterCount={(filter) => {   
                         switch (filter) {
                             case 'Matiere':
                                 return courses.length;
