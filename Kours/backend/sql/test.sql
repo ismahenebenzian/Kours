@@ -1,6 +1,4 @@
-<<<<<<< Updated upstream
 USE Kours;
-
 -- Insertion de données de test
 -- Insérer un établissement
 INSERT INTO `etablissements` (`nom_etablissement`, `ville`) 
@@ -88,6 +86,4 @@ WHERE `id_groupe` = 1 AND `id_utilisateur` = 2;
 -- Ajout effectif dans les membres du groupe
 INSERT INTO `membres_groupe` (`id_groupe`, `id_utilisateur`, `role_membre`) 
 VALUES (1, 2, 'membre');
-=======
 
->>>>>>> Stashed changes

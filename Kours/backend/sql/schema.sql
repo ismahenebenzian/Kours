@@ -1,10 +1,4 @@
 -- CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci -> gérer accents et caractères spéciaux
-<<<<<<< Updated upstream
-CREATE DATABASE IF NOT EXISTS Kours
-	CHARACTER SET utf8mb4 
-    COLLATE utf8mb4_0900_ai_ci;
-USE Kours;
-=======
 CREATE DATABASE IF NOT EXISTS `Kours` 
 CHARACTER SET utf8mb4 
 COLLATE utf8mb4_0900_ai_ci;
@@ -314,4 +308,3 @@ ALTER TABLE `utilisateurs` ADD FOREIGN KEY (`id_utilisateur`) REFERENCES `quotas
 ALTER TABLE `notifications` ADD FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateurs` (`id_utilisateur`) ON DELETE CASCADE;
 
 
---SHOW TABLES;
