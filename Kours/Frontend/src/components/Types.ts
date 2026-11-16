@@ -1,3 +1,6 @@
+
+import type {  ReactNode } from "react";
+
 export type Course = {
   id: string;
   title: string;
@@ -34,4 +37,28 @@ export type Option = {
 export type CreateQuizProps = {
     onSave?: (quizData: any) => void;
     onPublish?: (quizData: any) => void;
+}
+
+export type PopUpProps =
+{
+    IsOpen?:boolean;
+    IsClosed?:boolean;
+    children:ReactNode;
+}
+export type QuizDemoProps =  {
+    questions: Question[];
+    quizTitle?: string;
+    onClose: () => void;
+}
+export type Space = {
+    id: string;
+    title: string;
+    membersCount: number;
+    role: 'Admin' | 'Membre';
+    newCoursesCount: number;
+}
+export type JoinRequest = {
+    id: string;
+    userName: string;
+    spaceName: string;
 }

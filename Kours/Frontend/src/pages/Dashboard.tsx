@@ -8,6 +8,8 @@ import { useState } from "react";
 import MesCours from "../components/Dashboard/MesCours";
 import Notes from "../components/Dashboard/Note";
 import Quiz from "../components/Dashboard/Quiz";
+import EspacesPrives from "../components/Dashboard/EspacesPrive";
+import Explore from "../components/Dashboard/Explore";
 
 
 const DashNav = ["Accueil", "Mes cours", "Espaces privés", "Explorer", "Profil"];
@@ -91,8 +93,8 @@ export default function Dashboard() {
                 </header>
                 { activeNav === "Accueil" && <DashHome />}
                 { activeNav === "Mes cours" && <div className="p-6 sm:p-8 space-y-6"><MesCours /></div>}
-                { activeNav === "Espaces privés" && <div className="p-6 sm:p-8 space-y-6">Espaces privés</div>}
-                { activeNav === "Explorer" && <div className="p-6 sm:p-8 space-y-6">Explorer</div>}
+                { activeNav === "Espaces privés" && <div className="p-6 sm:p-8 space-y-6"><EspacesPrives /></div>}
+                { activeNav === "Explorer" && <div className="p-6 sm:p-8 space-y-6"><Explore/></div>}
                 { activeNav === "Profil" && <div className="p-6 sm:p-8 space-y-6"><Profile /></div>}
                 { activeNav === "Notes" && <div className="p-6 sm:p-8 space-y-6"><Notes /></div>}
                 { activeNav === "Quiz" && <div className="p-6 sm:p-8 space-y-6"><Quiz /></div>}
