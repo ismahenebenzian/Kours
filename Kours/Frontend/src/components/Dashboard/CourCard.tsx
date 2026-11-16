@@ -11,7 +11,7 @@ interface ExtendedCourse extends Course {
 
 export default function CoursCard({ course }: { course: ExtendedCourse }) {
   const [modificationDisplay, setModificationDisplay] = useState(false);
-  const navigate = useNavigate(); // 2. Initialise le hook de navigation
+  const navigate = useNavigate(); 
   
   const [title, setTitle] = useState(course.title);
   const [type, setType] = useState(course.type);
@@ -41,7 +41,7 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
     <>
       <div 
         className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow cursor-pointer" 
-        onClick={() => navigate(`/dashboard/cours/${course.id}`)}
+        onClick={() => {navigate(`/dashboard/cours/${course.id}`);window.scrollTo({ top: 0, behavior: 'smooth' });}}
       >
         <div className="space-y-4">
           <div className="w-full h-36 bg-indigo-50/70 rounded-2xl flex items-center justify-center relative overflow-hidden group border border-indigo-100/50">
