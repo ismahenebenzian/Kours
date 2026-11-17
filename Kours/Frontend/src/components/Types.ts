@@ -17,6 +17,8 @@ export type Course = {
   previewImage?: string;
   extensions?: string[]; // ex: ['PDF', 'DOCX', 'ZIP']
   downloadUrl?: string;
+    adminsCours?: boolean;
+
 }
 
 

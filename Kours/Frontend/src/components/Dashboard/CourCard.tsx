@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Course } from "../Types";
-import { Star, X, Save, FileText, FileCode, FileArchive, ArrowDownToLine } from "lucide-react";
+import { Star, X, Save, FileText, FileCode, FileArchive, ArrowDownToLine, UserRoundShield } from "lucide-react";
 import { useNavigate } from "react-router-dom"; // 1. Importe useNavigate
 
 interface ExtendedCourse extends Course {
@@ -9,10 +9,15 @@ interface ExtendedCourse extends Course {
   downloadUrl?: string;
 }
 
-export default function CoursCard({ course }: { course: ExtendedCourse }) {
+
+interface CoursCardProps {
+  course: ExtendedCourse;
+  adminsCours?: boolean;
+}
+export default function CoursCard({ course, adminsCours }: CoursCardProps) {
   const [modificationDisplay, setModificationDisplay] = useState(false);
-  const navigate = useNavigate(); 
-  
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState(course.title);
   const [type, setType] = useState(course.type);
   const [status, setStatus] = useState(course.status);
@@ -20,7 +25,7 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
   const [level, setLevel] = useState(course.level);
   const [university, setUniversity] = useState(course.university);
   const [year, setYear] = useState(course.year);
-  
+
   const extensionsList = course.extensions || ['PDF', 'ZIP'];
 
   const handleSave = (e: React.FormEvent) => {
@@ -39,16 +44,17 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
 
   return (
     <>
-      <div 
-        className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow cursor-pointer" 
-        onClick={() => {navigate(`/dashboard/cours/${course.id}`);window.scrollTo({ top: 0, behavior: 'smooth' });}}
+      <div
+        className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between space-y-6 hover:shadow-md transition-shadow cursor-pointer"
+        onClick={() => { navigate(`/dashboard/cours/${course.id}`); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
       >
         <div className="space-y-4">
+
           <div className="w-full h-36 bg-indigo-50/70 rounded-2xl flex items-center justify-center relative overflow-hidden group border border-indigo-100/50">
             {course.previewImage ? (
-              <img 
-                src={course.previewImage} 
-                alt={course.title} 
+              <img
+                src={course.previewImage}
+                alt={course.title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             ) : (
@@ -72,13 +78,21 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
             <span className="bg-indigo-50 text-indigo-700 font-semibold text-xs px-3 py-1 rounded-full">
               {course.type}
             </span>
-            <span className={`font-semibold text-xs px-3 py-1 rounded-full ${
-              course.status === 'Publié' 
-                ? 'bg-emerald-50 text-emerald-600' 
-                : 'bg-amber-50 text-amber-600'
-            }`}>
-              {course.status}
-            </span>
+
+
+            {course.status === 'Publié' && adminsCours &&(
+
+
+              <span className={`font-semibold text-xs px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 }`}>
+
+                
+                <>
+                  <UserRoundShield />
+                </>
+                
+                </span>
+          )}
+              
           </div>
 
           <h3 className="font-bold text-slate-900 text-lg leading-snug">
@@ -102,26 +116,28 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
               <span>{course.comments} commentaires</span>
             </div>
           </div>
+          {adminsCours && (
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                className="py-2.5 px-4 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs rounded-xl border border-slate-200 shadow-sm transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setModificationDisplay(true);
+                }}
+              >
+                Modifier
+              </button>
 
-          <div className="grid grid-cols-2 gap-3">
-            <button 
-              type="button"
-              className="py-2.5 px-4 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs rounded-xl border border-slate-200 shadow-sm transition-colors text-center cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation(); 
-                setModificationDisplay(true);
-              }}
-            >
-              Modifier
-            </button>
-            <button 
-              type="button"
-              className="py-2.5 px-4 bg-white hover:bg-rose-50 text-rose-600 font-semibold text-xs rounded-xl border border-rose-100 shadow-sm transition-colors text-center cursor-pointer"
-              onClick={(e) => e.stopPropagation()}
-            >
-              Supprimer
-            </button>
-          </div>
+              <button
+                type="button"
+                className="py-2.5 px-4 bg-white hover:bg-rose-50 text-rose-600 font-semibold text-xs rounded-xl border border-rose-100 shadow-sm transition-colors"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Supprimer
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -129,7 +145,7 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
       {modificationDisplay && (
         <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex flex-col overflow-y-auto p-4 sm:p-8 animate-in fade-in duration-200">
           <div className="max-w-4xl mx-auto w-full bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 sm:p-10 my-auto space-y-8" onClick={(e) => e.stopPropagation()}>
-            
+
             <div className="flex items-center justify-between border-b border-slate-200 pb-6">
               <button
                 type="button"
@@ -139,7 +155,7 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
                 Retour
               </button>
               <h2 className="text-lg font-extrabold text-slate-900">Aperçu et modification du cours</h2>
-              <button 
+              <button
                 type="button"
                 onClick={() => setModificationDisplay(false)}
                 className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition-colors cursor-pointer"
@@ -181,9 +197,9 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Titre du cours</label>
-                  <input 
-                    type="text" 
-                    value={title} 
+                  <input
+                    type="text"
+                    value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="w-full px-4 py-3 text-sm border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                     required
@@ -192,8 +208,8 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Type de document</label>
-                  <select 
-                    value={type} 
+                  <select
+                    value={type}
                     onChange={(e) => setType(e.target.value as any)}
                     className="w-full px-4 py-3 text-sm border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                   >
@@ -204,8 +220,8 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Statut</label>
-                  <select 
-                    value={status} 
+                  <select
+                    value={status}
                     onChange={(e) => setStatus(e.target.value as any)}
                     className="w-full px-4 py-3 text-sm border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                   >
@@ -216,9 +232,9 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Domaine</label>
-                  <input 
-                    type="text" 
-                    value={domain} 
+                  <input
+                    type="text"
+                    value={domain}
                     onChange={(e) => setDomain(e.target.value)}
                     className="w-full px-4 py-3 text-sm border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                   />
@@ -226,9 +242,9 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Niveau</label>
-                  <input 
-                    type="text" 
-                    value={level} 
+                  <input
+                    type="text"
+                    value={level}
                     onChange={(e) => setLevel(e.target.value)}
                     className="w-full px-4 py-3 text-sm border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                   />

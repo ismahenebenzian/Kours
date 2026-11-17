@@ -13,10 +13,10 @@ import DashHome from '../components/Dashboard/Dash-home';
 import MesCours from '../components/Dashboard/MesCours';
 import Notes from '../components/Dashboard/Note';
 import EspacesPrives from '../components/Dashboard/EspacesPrive';
-import DashExplore from '../components/Dashboard/Explore';
 import Quiz from '../components/Dashboard/Quiz';
 import Profile from '../components/Dashboard/Profile';
 import CourseDetail from '../pages/CoursDetail';
+import ExploreList from '../components/Dashboard/ExploreList';
 
 const RootLayout = () => (
     <div className="w-full">
@@ -48,7 +48,7 @@ export const router = createBrowserRouter([
                             { path: 'mes-cours', element: <MesCours /> },
                             { path: 'notes', element: <Notes /> },
                             { path: 'espaces-prives', element: <EspacesPrives /> },
-                            { path: 'explorer', element: <DashExplore /> }, 
+                            { path: 'explorer', element: <ExploreList /> }, 
                             
                             { path: 'quiz', element: <Quiz /> },
                             { path: 'profil', element: <Profile /> },
