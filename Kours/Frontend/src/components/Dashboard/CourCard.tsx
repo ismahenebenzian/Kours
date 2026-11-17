@@ -108,7 +108,7 @@ export default function CoursCard({ course }: { course: ExtendedCourse }) {
               type="button"
               className="py-2.5 px-4 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs rounded-xl border border-slate-200 shadow-sm transition-colors text-center cursor-pointer"
               onClick={(e) => {
-                e.stopPropagation(); // Empêche la redirection vers la page du cours
+                e.stopPropagation(); 
                 setModificationDisplay(true);
               }}
             >
