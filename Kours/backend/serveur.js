@@ -2,7 +2,15 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+<<<<<<< Updated upstream
 app.use(express.json());
+=======
+const quizRoutes = require('./src/routes/quiz.routes');
+const courseRoutes = require('./src/routes/course.routes');
+
+app.use(cors());
+app.use(express.json({ limit: '10mb' }));
+>>>>>>> Stashed changes
 
 app.get('/', (req, res) => {
   res.json({ message: 'Serveur Node.js opérationnel !' });
@@ -12,6 +20,15 @@ app.post('/data', (req, res) => {
   res.json({ recu: req.body });
 });
 
+<<<<<<< Updated upstream
 app.listen(port, () => {
   console.log(`Serveur en écoute sur http://localhost:${port}`);
 });
+=======
+app.use('/api', quizRoutes);
+app.use('/api', courseRoutes);
+
+app.listen(PORT, () => {
+    console.log(`Serveur Kours : http://localhost:${PORT}`);
+});
+>>>>>>> Stashed changes
