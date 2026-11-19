@@ -1,6 +1,8 @@
 const express = require('express');
+const cors = require('cors');
+
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
 const quizRoutes = require('./src/routes/quiz.routes');
 const courseRoutes = require('./src/routes/course.routes');
@@ -9,11 +11,14 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Serveur Node.js opérationnel !' });
+    res.json({
+        success: true,
+        message: 'Serveur Kours opérationnel !'
+    });
 });
 
 app.post('/data', (req, res) => {
-  res.json({ recu: req.body });
+    res.json({ recu: req.body });
 });
 
 app.use('/api', quizRoutes);
