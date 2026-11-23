@@ -12,53 +12,41 @@ import QuizDemo from './QuizDemo';
 import type { Question, CreateQuizProps, } from '../Types';
 import GenererAvecIA from "../GenererAvecIA"
 
+    const courseText = `
+Cours : Introduction à Git et GitHub
 
+Git est un système de contrôle de version décentralisé qui permet
+de suivre l'historique des modifications d'un projet informatique.
+Il a été créé par Linus Torvalds en 2005.
 
-const courseText = `
-Cours : Introduction à Linux
+GitHub est une plateforme web hébergeant des dépôts Git,
+facilitant la collaboration et le travail en équipe.
 
-Linux est un système d'exploitation libre et open source.
-Il est basé sur un noyau créé par Linus Torvalds en 1991.
+Le fonctionnement de Git repose sur trois états principaux :
+- Le répertoire de travail (Working Directory) : les fichiers modifiés en local.
+- La zone d'index (Staging Area) : l'antichambre des modifications prêtes à être enregistrées.
+- Le dépôt local (Repository) : l'historique complet des versions enregistrées.
 
-Un système Linux est composé principalement du noyau,
-des bibliothèques système, des utilitaires et des applications.
+Quelques commandes Git fondamentales :
 
-Le terminal permet à l'utilisateur d'interagir avec le système
-à l'aide de commandes.
+- git init : initialise un nouveau dépôt Git local.
+- git clone : télécharge un dépôt distant sur sa machine.
+- git status : affiche l'état des fichiers (modifiés, suivis, non suivis).
+- git add : ajoute des fichiers à la zone d'index.
+- git commit : enregistre les modifications de l'index dans l'historique.
+- git push : envoie les commits locaux vers le dépôt distant (GitHub).
+- git pull : récupère et fusionne les modifications distantes en local.
+- git branch : gère les branches de développement.
+- git checkout ou git switch : permet de changer de branche.
+- git merge : fusionne une branche avec une autre.
 
-Quelques commandes Linux importantes :
+Le système de branches (branching) permet de travailler sur de
+nouvelles fonctionnalités ou corrections sans modifier la version
+principale (souvent appelée main ou master) du projet.
 
-- pwd : affiche le répertoire courant.
-- ls : liste les fichiers et dossiers.
-- cd : permet de changer de répertoire.
-- mkdir : crée un nouveau dossier.
-- touch : crée un fichier.
-- cp : copie des fichiers.
-- mv : déplace ou renomme des fichiers.
-- rm : supprime des fichiers.
-- cat : affiche le contenu d'un fichier.
-- sudo : exécute une commande avec des privilèges administrateur.
-
-Dans Linux, les fichiers et dossiers sont organisés dans une
-arborescence qui commence à la racine, représentée par /.
-
-Le répertoire /home contient généralement les dossiers personnels
-des utilisateurs.
-
-Le répertoire /etc contient les fichiers de configuration du système.
-
-Le répertoire /bin contient des commandes essentielles.
-
-Les permissions Linux déterminent qui peut lire, modifier ou
-exécuter un fichier.
-
-Les trois catégories de permissions sont :
-- r : lecture.
-- w : écriture.
-- x : exécution.
-
-Linux est utilisé dans les serveurs, les ordinateurs personnels,
-les systèmes embarqués et les infrastructures informatiques.
+Une Pull Request (ou Merge Request) est une demande de fusion
+de code sur GitHub, permettant d'analyser, de commenter et de
+valider le code avant de l'intégrer au projet commun.
 `;
 export default function Quiz({ onSave, onPublish }: CreateQuizProps) {
     const [quizTitle, setQuizTitle] = useState("QCM Linux débutant");
@@ -334,7 +322,7 @@ export default function Quiz({ onSave, onPublish }: CreateQuizProps) {
                         </button>
                     </div>
 
-                    {/* SIDEBAR (IA & PUBLICATION) */}
+                    {/* SIDEBAR  */}
                     <div className="space-y-6">
 
                         <GenererAvecIA
@@ -387,7 +375,8 @@ export default function Quiz({ onSave, onPublish }: CreateQuizProps) {
 
 
             </div>
-            {demoState && (
+            {
+                demoState && (
                 <QuizDemo questions={questions} onClose={() => setDemoState(false)} />
             )}
         </div>

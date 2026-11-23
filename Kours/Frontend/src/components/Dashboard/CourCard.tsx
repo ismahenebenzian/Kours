@@ -13,8 +13,9 @@ interface ExtendedCourse extends Course {
 interface CoursCardProps {
   course: ExtendedCourse;
   adminsCours?: boolean;
+  handleDelete?: React.Dispatch<string>;
 }
-export default function CoursCard({ course, adminsCours }: CoursCardProps) {
+export default function CoursCard({ course, adminsCours,handleDelete }: CoursCardProps) {
   const [modificationDisplay, setModificationDisplay] = useState(false);
   const navigate = useNavigate();
 
@@ -116,7 +117,7 @@ export default function CoursCard({ course, adminsCours }: CoursCardProps) {
               <span>{course.comments} commentaires</span>
             </div>
           </div>
-          {adminsCours && (
+          {adminsCours ? (
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
@@ -132,12 +133,14 @@ export default function CoursCard({ course, adminsCours }: CoursCardProps) {
               <button
                 type="button"
                 className="py-2.5 px-4 bg-white hover:bg-rose-50 text-rose-600 font-semibold text-xs rounded-xl border border-rose-100 shadow-sm transition-colors"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) =>{ e.stopPropagation();handleDelete(course.id)}}
               >
                 Supprimer
               </button>
             </div>
-          )}
+          ):
+          <>
+          </>}
         </div>
       </div>
 

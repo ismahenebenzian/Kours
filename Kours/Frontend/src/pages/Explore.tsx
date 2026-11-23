@@ -1,7 +1,7 @@
 
 import Navbar from '../components/navbar';
-import Trouver from'../assets/trouvercours.svg';
-import Notes from'../assets/notesImages.svg';
+import Trouver from '../assets/trouvercours.svg';
+import Notes from '../assets/notesImages.svg';
 import comments from '../assets/home/commentairesIMG.svg'
 import Footer from '../components/footer'
 import ExploreList from '../components/Dashboard/ExploreList';
@@ -9,43 +9,24 @@ export default function Explore() {
 
 
 
-    const steps = [
-        {
-            number: '01',
-            numberColor: 'text-blue-600',
-            title: 'Crée ton compte',
-            description: 'Indique ton domaine et ton niveau. Ça prend une minute.',
-        },
-        {
-            number: '02',
-            numberColor: 'text-amber-500',
-            title: 'Trouve ou dépose',
-            description: 'Recherche un cours, ou partage les tiens en PDF.',
-        },
-        {
-            number: '03',
-            numberColor: 'text-emerald-600',
-            title: 'Révise et échange',
-            description: 'Quiz, notes, commentaires et avis de la communauté.',
-        },
-    ];
+
     return (
         <main className='min-h-screen z-9'>
             {/* Navbar */}
-                <Navbar />
-            
+            <Navbar />
+
 
 
 
             <section className="w-full bg-white py-16 px-4 sm:px-6 lg:px-8">
                 {/* En-tête principal */}
-               
-                <ExploreList/>
+
+                <ExploreList />
             </section>
 
             <div className="w-full bg-white flex flex-col">
 
-                {/* SECTION 1 : Les cours de ta filière, à portée de clic */}
+                {/* SECTION 1 */}
                 <section className="w-full py-16 px-4 sm:px-6 lg:px-8 bg-[#E6F1FF]">
                     <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-30 items-center">
 
@@ -83,10 +64,9 @@ export default function Explore() {
                             </a>
                         </div>
 
-                        {/* Illustration / Image à droite */}
+                        {/* Illustration  */}
                         <div className="relative w-full flex justify-center">
                             <div className="w-full max-w-lg bg-indigo-100/60 rounded-3xl p-6 sm:p-8 shadow-sm">
-                                {/* Remplacez src par le chemin de votre image de recherche */}
                                 <img
                                     src={Trouver}
                                     alt="Interface de recherche de cours"
@@ -98,14 +78,12 @@ export default function Explore() {
                     </div>
                 </section>
 
-                {/* SECTION 2 : Prends tes notes sans quitter ton cours */}
+                {/* SECTION 2  */}
                 <section className="w-full py-16 px-4 sm:px-6 lg:px-8 bg-white">
                     <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-                        {/* Illustration / Image à gauche */}
                         <div className="relative w-full flex justify-center order-2 lg:order-1">
                             <div className="w-full max-w-lg bg-emerald-600 rounded-3xl p-6 sm:p-8 shadow-sm">
-                                {/* Remplacez src par le chemin de votre image de l'éditeur */}
                                 <img
                                     src={Notes}
                                     alt="Éditeur de notes en ligne"
@@ -158,76 +136,76 @@ export default function Explore() {
 
                     </div>
                 </section>
-  
-    <section className="w-full bg-gradient-to-r from-[#0B1440] via-[#1B2E8F] to-[#2F5BEA] py-16 px-4 sm:px-6 lg:px-8 text-white">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        
-       <div>
-        <img src={comments} alt="" />
-       </div>
 
-        {/* Texte à droite */}
-        <div className="flex flex-col items-start">
-          <span className="text-xs font-semibold tracking-widest text-amber-400 uppercase mb-3">
-            LA COMMUNAUTÉ
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
-            Tu bloques ? La communauté te répond.
-          </h2>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-            Sous chaque cours, pose une question, annote une page ou donne ton avis. Les étudiants s'entraident.
-          </p>
+                <section className="w-full bg-gradient-to-r from-[#0B1440] via-[#1B2E8F] to-[#2F5BEA] py-16 px-4 sm:px-6 lg:px-8 text-white">
+                    <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-          {/* Liste de points avec icônes de validation dorées */}
-          <ul className="mt-6 space-y-3">
-            <li className="flex items-center text-slate-200 text-sm sm:text-base font-medium">
-              <span className="w-5 h-5 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center text-xs mr-3 font-bold">✓</span>
-              Commentaires et annotations sous chaque cours
-            </li>
-            <li className="flex items-center text-slate-200 text-sm sm:text-base font-medium">
-              <span className="w-5 h-5 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center text-xs mr-3 font-bold">✓</span>
-              Notes et avis pour repérer les meilleurs cours
-            </li>
-            <li className="flex items-center text-slate-200 text-sm sm:text-base font-medium">
-              <span className="w-5 h-5 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center text-xs mr-3 font-bold">✓</span>
-              Signalement en un clic, droit d'auteur respecté
-            </li>
-          </ul>
-        </div>
+                        <div>
+                            <img src={comments} alt="" />
+                        </div>
 
-      </div>
-    </section>
+                        {/* Texte à droite */}
+                        <div className="flex flex-col items-start">
+                            <span className="text-xs font-semibold tracking-widest text-amber-400 uppercase mb-3">
+                                LA COMMUNAUTÉ
+                            </span>
+                            <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
+                                Tu bloques ? La communauté te répond.
+                            </h2>
+                            <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
+                                Sous chaque cours, pose une question, annote une page ou donne ton avis. Les étudiants s'entraident.
+                            </p>
 
-    <div className="w-full bg-white flex flex-col">
-      
-      {/* SECTION APPEL À L'ACTION (CTA) */}
-      <section className="w-full py-16 px-4 sm:px-6 lg:px-8 bg-white flex justify-center">
-        <div className="w-full max-w-5xl bg-gradient-to-r from-slate-950 via-indigo-950 to-blue-600 rounded-3xl p-8 sm:p-14 text-center text-white shadow-xl flex flex-col items-center">
-          
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
-            Prêt à réviser autrement ?
-          </h2>
-          <p className="mt-3 text-sm sm:text-base text-slate-300 max-w-xl">
-            Crée ton compte en 1 minute. Dépose un cours, aide la communauté.
-          </p>
+                            {/* Liste de points avec icônes de validation dorées */}
+                            <ul className="mt-6 space-y-3">
+                                <li className="flex items-center text-slate-200 text-sm sm:text-base font-medium">
+                                    <span className="w-5 h-5 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center text-xs mr-3 font-bold">✓</span>
+                                    Commentaires et annotations sous chaque cours
+                                </li>
+                                <li className="flex items-center text-slate-200 text-sm sm:text-base font-medium">
+                                    <span className="w-5 h-5 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center text-xs mr-3 font-bold">✓</span>
+                                    Notes et avis pour repérer les meilleurs cours
+                                </li>
+                                <li className="flex items-center text-slate-200 text-sm sm:text-base font-medium">
+                                    <span className="w-5 h-5 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center text-xs mr-3 font-bold">✓</span>
+                                    Signalement en un clic, droit d'auteur respecté
+                                </li>
+                            </ul>
+                        </div>
 
-          {/* Boutons d'action */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-            <button className="w-full sm:w-auto bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-6 py-3 rounded-xl transition-colors shadow-md">
-              Créer un compte
-            </button>
-            <button className="w-full sm:w-auto bg-transparent hover:bg-white/10 text-white border border-slate-600 font-semibold px-6 py-3 rounded-xl transition-colors">
-              Déposer un cours
-            </button>
-          </div>
+                    </div>
+                </section>
 
-        </div>
-      </section>
+                <div className="w-full bg-white flex flex-col">
 
-      <Footer/>
+                    {/* SECTION APPEL À L'ACTION */}
+                    <section className="w-full py-16 px-4 sm:px-6 lg:px-8 bg-white flex justify-center">
+                        <div className="w-full max-w-5xl bg-gradient-to-r from-slate-950 via-indigo-950 to-blue-600 rounded-3xl p-8 sm:p-14 text-center text-white shadow-xl flex flex-col items-center">
 
-      
-    </div>
+                            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
+                                Prêt à réviser autrement ?
+                            </h2>
+                            <p className="mt-3 text-sm sm:text-base text-slate-300 max-w-xl">
+                                Crée ton compte en 1 minute. Dépose un cours, aide la communauté.
+                            </p>
+
+                            {/* Boutons d'action */}
+                            <div className="mt-8 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                                <button className="w-full sm:w-auto bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-6 py-3 rounded-xl transition-colors shadow-md">
+                                    Créer un compte
+                                </button>
+                                <button className="w-full sm:w-auto bg-transparent hover:bg-white/10 text-white border border-slate-600 font-semibold px-6 py-3 rounded-xl transition-colors">
+                                    Déposer un cours
+                                </button>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <Footer />
+
+
+                </div>
 
 
 
@@ -235,6 +213,6 @@ export default function Explore() {
 
 
         </main>
-  
+
     );
 }

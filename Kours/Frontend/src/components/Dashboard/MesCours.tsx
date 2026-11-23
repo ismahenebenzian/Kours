@@ -3,7 +3,7 @@ import type { Course } from '../Types';
 import { useState } from 'react';
 import { 
   Star, 
-  Plus, 
+  Plus,
 } from 'lucide-react';
 import FiltersCard from './FiltersCard';
 import StatsCard from './StatsCard';
@@ -16,52 +16,60 @@ export default function MesCours() {
   const [activeTab, setActiveTab] = useState<filters>('deposes');
   const filters: filters[] = ['deposes', 'favoris', 'quiz', 'notes'];
   const [addcoursDisplay, setAddcoursDisplay] = useState(false);
+const [courses, setCourses] = useState<Course[]>([
+    {
+        id: '1',
+        title: 'Normalisation des bases de données',
+        type: 'Cours complet',
+        status: 'Publié',
+        domain: 'Informatique',
+        level: 'BUT 2',
+        university: 'Université de Lyon',
+        author: 'M. Garnier (enseignant)',
+        year: '2025–2026',
+        rating: 4.7,
+        likes: 182,
+        comments: 24,
+        adminsCours: true,
+    },
+    {
+        id: '2',
+        title: 'Modèle relationnel et algèbre relationnelle',
+        type: 'Cours complet',
+        status: 'Privé',
+        domain: 'Informatique',
+        level: 'BUT 2',
+        university: 'Université de Lyon',
+        author: 'M. Garnier (enseignant)',
+        year: '2025–2026',
+        rating: '—',
+        likes: 0,
+        comments: 0,
+        adminsCours: true,
+    },
+    {
+        id: '3',
+        title: 'SQL : jointures et sous-requêtes',
+        type: 'Fiche révision',
+        status: 'Privé',
+        domain: 'Informatique',
+        level: 'BUT 2',
+        university: 'Université de Lille',
+        author: 'M. Garnier (enseignant)',
+        year: '2025–2026',
+        rating: 4.8,
+        likes: 182,
+        comments: 24,
+        adminsCours:true,
+    },
+]);
 
-  // Données factices calquées sur votre maquette
-  const courses: Course[] = [
-    {
-      id: '1',
-      title: 'Normalisation des bases de données',
-      type: 'Cours complet',
-      status: 'Publié',
-      domain: 'Informatique',
-      level: 'BUT 2',
-      university: 'Université de Lyon',
-      author: 'M. Garnier (enseignant)',
-      year: '2025–2026',
-      rating: 4.7,
-      likes: 182,
-      comments: 24,
-    },
-    {
-      id: '2',
-      title: 'Modèle relationnel et algèbre relationnelle',
-      type: 'Cours complet',
-      status: 'Privé',
-      domain: 'Informatique',
-      level: 'BUT 2',
-      university: 'Université de Lyon',
-      author: 'M. Garnier (enseignant)',
-      year: '2025–2026',
-      rating: '—',
-      likes: 0,
-      comments: 0,
-    },
-    {
-      id: '3',
-      title: 'SQL : jointures et sous-requêtes',
-      type: 'Fiche révision',
-      status: 'Privé',
-      domain: 'Informatique',
-      level: 'BUT 2',
-      university: 'Université de Lille',
-      author: 'M. Garnier (enseignant)',
-      year: '2025–2026',
-      rating: 4.8,
-      likes: 182,
-      comments: 24,
-    },
-  ];
+
+ const handleDelete = (id: string) => {
+    setCourses((prevCourses) =>
+        prevCourses.filter((course) => course.id !== id)
+    );
+};
 
   return (
     <div className="min-h-screen bg-slate-50/50 p-6 sm:p-10">
@@ -111,11 +119,11 @@ export default function MesCours() {
         {/* GRILLE DES COURS */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course) => (
-            <CoursCard key={course.id} course={course} />
+            <CoursCard key={course.id} course={course} adminsCours={course.adminsCours} handleDelete={handleDelete} />
           ))}
         </div>
 
-        {/* SECTION INFÉRIEURE : Bannière "Partage un nouveau cours" */}
+        {/* SECTION INFÉRIEURE  */}
         <div className="border-2 border-dashed border-indigo-200 bg-indigo-50/30 rounded-3xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0 hover:bg-indigo-200 transition-colors" onClick={() => {setAddcoursDisplay(true)}} >
