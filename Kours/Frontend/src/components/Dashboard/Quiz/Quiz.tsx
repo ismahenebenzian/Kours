@@ -9,8 +9,8 @@ import {
     X,
 } from 'lucide-react';
 import QuizDemo from './QuizDemo';
-import type { Question, CreateQuizProps, } from '../Types';
-import GenererAvecIA from "../GenererAvecIA"
+import type { Question, CreateQuizProps, } from '../../Types';
+import GenererAvecIA from "../../GenererAvecIA"
 
 
 
@@ -23,7 +23,7 @@ Il est basé sur un noyau créé par Linus Torvalds en 1991.
 Un système Linux est composé principalement du noyau,
 des bibliothèques système, des utilitaires et des applications.
 
-Le terminal permet à l'utilisateur d'interagir avec le système
+Le terminal permet à l'utilisateur d'interagir avec l   e système
 à l'aide de commandes.
 
 Quelques commandes Linux importantes :

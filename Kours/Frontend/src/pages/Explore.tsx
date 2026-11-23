@@ -4,7 +4,7 @@ import Trouver from'../assets/trouvercours.svg';
 import Notes from'../assets/notesImages.svg';
 import comments from '../assets/home/commentairesIMG.svg'
 import Footer from '../components/footer'
-import ExploreList from '../components/Dashboard/ExploreList';
+import ExploreList from '../components/Dashboard/explore/ExploreList';
 export default function Explore() {
 
 
