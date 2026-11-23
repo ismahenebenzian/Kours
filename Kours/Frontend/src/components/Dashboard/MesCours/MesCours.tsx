@@ -6,7 +6,7 @@ import {
   Plus, 
 } from 'lucide-react';
 import FiltersCard from './FiltersCard';
-import StatsCard from '../StatsCard';
+import StatsCard from '../Home/StatsCard';
 import CoursCard from './CourCard';
 import AddCoursForm from './AddCoursForm';
 
