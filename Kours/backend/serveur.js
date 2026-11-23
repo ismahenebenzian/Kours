@@ -1,4 +1,3 @@
-
 const express = require('express');
 const cors = require('cors');
 
@@ -6,6 +5,7 @@ const app = express();
 const PORT = 3000;
 
 const quizRoutes = require('./src/routes/quiz.routes');
+const courseRoutes = require('./src/routes/course.routes');
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
@@ -22,6 +22,7 @@ app.post('/data', (req, res) => {
 });
 
 app.use('/api', quizRoutes);
+app.use('/api', courseRoutes);
 
 app.listen(PORT, () => {
     console.log(`Serveur Kours : http://localhost:${PORT}`);
