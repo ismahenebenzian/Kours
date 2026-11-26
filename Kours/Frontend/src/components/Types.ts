@@ -95,3 +95,25 @@ export interface HowItWorksResponse {
   highlights: HowItWorksHighlight[];
   faq: HowItWorksFaqItem[];
 }
+
+
+export interface UserProfile {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  fieldOfStudy: string;
+  academicLevel: string;
+  institution: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface UpdateProfilePayload {
+  firstName: string;
+  lastName: string;
+  email: string;
+  fieldOfStudy: string;
+  academicLevel: string;
+  institution: string;
+}
