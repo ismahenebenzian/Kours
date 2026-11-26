@@ -4,13 +4,13 @@ import { depositCourse } from "../../../services/courseService";
 
 export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDisplay: React.Dispatch<React.SetStateAction<boolean>> }) {
     // États locaux pour le formulaire (facultatifs, pour la structure)
-    const [title, setTitle] = useState("Normalisation des bases de données");
+    const [title, setTitle] = useState("");
     const [domain, setDomain] = useState("");
-    const [level, setLevel] = useState("BUT 2");
+    const [level, setLevel] = useState("");
     const [university, setUniversity] = useState("");
-    const [docType, setDocType] = useState("cours_complet");
-    const [author, setAuthor] = useState("M. Garnier");
-    const [year, setYear] = useState("2025-2026");
+    const [docType, setDocType] = useState("");
+    const [author, setAuthor] = useState("");
+    const [year, setYear] = useState("");
     const [visibility, setVisibility] = useState<"public" | "private">("public");
     const [engagement, setEngagement] = useState(false);
 
@@ -48,9 +48,9 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
         const formData = new FormData();
         formData.append("fichier", file);
         formData.append("titre", title);
-        formData.append("domaine_id", domain);
+        formData.append("domaine", domain.trim());
         formData.append("niveau", level);
-        formData.append("etablissement_id", university);
+        formData.append("etablissement", university.trim());
         formData.append("type_document", docType);
         formData.append("enseignant", author);
         formData.append("annee_universitaire", year);
@@ -194,6 +194,7 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Titre</label>
                                 <input 
                                     type="text" 
+                                    placeholder="Ex : Algorithmique"
                                     value={title} 
                                     onChange={(e) => setTitle(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
@@ -203,8 +204,8 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                             <div>
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Domaine / matière</label>
                                 <input 
-                                    type="number" min="1" required placeholder="Identifiant du domaine" 
-                                    value={domain} 
+                                    type="text" required placeholder="Ex : Informatique" 
+                                    value={domain}
                                     onChange={(e) => setDomain(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                                 />
@@ -215,6 +216,7 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                                 <input 
                                     type="text" 
                                     value={level} 
+                                    placeholder="Ex : BUT 2"
                                     onChange={(e) => setLevel(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                                 />
@@ -223,8 +225,8 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                             <div>
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Établissement</label>
                                 <input 
-                                    type="number" min="1" required placeholder="Identifiant de l’établissement" 
-                                    value={university} 
+                                    type="text" required placeholder="Ex : IUT du Creusot" 
+                                    value={university}
                                     onChange={(e) => setUniversity(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                                 />
@@ -252,6 +254,7 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                                 <input 
                                     type="text" 
                                     value={author} 
+                                    placeholder="Nom de l'enseignant"
                                     onChange={(e) => setAuthor(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                                 />
@@ -263,6 +266,7 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                                 <input 
                                     type="text" 
                                     value={year} 
+                                    placeholder="Ex : 2025-2026"
                                     onChange={(e) => setYear(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                                 />
