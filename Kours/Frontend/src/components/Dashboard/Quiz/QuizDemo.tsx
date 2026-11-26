@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { X, ChevronLeft,  XCircle, RotateCcw, BookOpen } from 'lucide-react';
-import type { Question,QuizDemoProps } from '../Types';
-import PopUp from '../PopUp';
+import type { Question,QuizDemoProps } from '../../Types';
+import PopUp from '../../PopUp';
 
 
 

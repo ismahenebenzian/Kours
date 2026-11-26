@@ -1,12 +1,12 @@
 
-import type { Course } from '../Types';
+import type { Course } from '../../Types';
 import { useState } from 'react';
 import { 
   Star, 
   Plus, 
 } from 'lucide-react';
 import FiltersCard from './FiltersCard';
-import StatsCard from './StatsCard';
+import StatsCard from '../Home/StatsCard';
 import CoursCard from './CourCard';
 import AddCoursForm from './AddCoursForm';
 
@@ -72,6 +72,7 @@ export default function MesCours() {
           <button 
             type="button"
             className="inline-flex items-center justify-center bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold px-6 py-3 rounded-2xl shadow-sm transition-all text-sm"
+            onClick={()=>addcoursDisplay}
           >
             Déposer un cours
           </button>

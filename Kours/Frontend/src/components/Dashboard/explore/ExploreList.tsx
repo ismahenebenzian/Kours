@@ -1,8 +1,8 @@
 import { useState } from "react";
-import type { Course } from "../Types";
-import FiltersCard from "./FiltersCard";
-import CoursCard from "./CourCard";
-import Pagination from "../Pagination"; 
+import type { Course } from "../../Types";
+import FiltersCard from "../MesCours/FiltersCard";
+import CoursCard from "../MesCours/CourCard";
+import Pagination from "../../Pagination"; 
 
 type filters = 'Matiere' | 'Niveau' | 'Etablissement' | 'Note minimal ';
 
