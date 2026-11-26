@@ -1,22 +1,71 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ArrowLeft, Upload, FileText, X } from "lucide-react";
+import { depositCourse } from "../../../services/courseService";
 
 export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDisplay: React.Dispatch<React.SetStateAction<boolean>> }) {
     // États locaux pour le formulaire (facultatifs, pour la structure)
     const [title, setTitle] = useState("Normalisation des bases de données");
-    const [domain, setDomain] = useState("Informatique · Bases de données");
+    const [domain, setDomain] = useState("");
     const [level, setLevel] = useState("BUT 2");
-    const [university, setUniversity] = useState("Université de Lyon");
-    const [docType, setDocType] = useState("Cours complet");
+    const [university, setUniversity] = useState("");
+    const [docType, setDocType] = useState("cours_complet");
     const [author, setAuthor] = useState("M. Garnier");
     const [year, setYear] = useState("2025-2026");
     const [visibility, setVisibility] = useState<"public" | "private">("public");
     const [engagement, setEngagement] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const [file, setFile] = useState<File | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleFile = (selectedFile: File) => {
+        setError("");
+        setFile(null);
+        if (selectedFile.type !== "application/pdf" || !selectedFile.name.toLowerCase().endsWith(".pdf")) {
+            setError("Seuls les fichiers PDF sont autorisés.");
+            return;
+        }
+        if (selectedFile.size > 10 * 1024 * 1024) {
+            setError("Le fichier ne doit pas dépasser 10 Mo.");
+            return;
+        }
+        setFile(selectedFile);
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Cours publié !");
-        setAddcoursDisplay(false);
+        if (loading) return;
+        setError("");
+        if (!file) {
+            setError("Veuillez sélectionner un fichier PDF.");
+            return;
+        }
+        if (!engagement) {
+            setError("Veuillez accepter l'engagement sur l'honneur.");
+            return;
+        }
+        const formData = new FormData();
+        formData.append("fichier", file);
+        formData.append("titre", title);
+        formData.append("domaine_id", domain);
+        formData.append("niveau", level);
+        formData.append("etablissement_id", university);
+        formData.append("type_document", docType);
+        formData.append("enseignant", author);
+        formData.append("annee_universitaire", year);
+        formData.append("visibilite", visibility === "private" ? "prive" : "public");
+        formData.append("engagement", String(engagement));
+        try {
+            setLoading(true);
+            const data = await depositCourse(formData);
+            alert(data.message);
+            setAddcoursDisplay(false);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Erreur lors du dépôt du cours.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -69,7 +118,14 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                         </div>
 
                         {/* Zone de drag & drop */}
-                        <div className="border-2 border-dashed border-indigo-200 bg-indigo-50/20 rounded-2xl p-8 text-center space-y-3">
+                        <div
+                            onDragOver={(e) => e.preventDefault()}
+                            onDrop={(e) => {
+                                e.preventDefault();
+                                const selectedFile = e.dataTransfer.files[0];
+                                if (selectedFile) handleFile(selectedFile);
+                            }}
+                            className="border-2 border-dashed border-indigo-200 bg-indigo-50/20 rounded-2xl p-8 text-center space-y-3">
                             <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto">
                                 <Upload className="w-5 h-5" />
                             </div>
@@ -77,8 +133,20 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                                 <p className="text-xs font-bold text-slate-800">Glisse ton PDF ici</p>
                                 <p className="text-[11px] text-slate-400">ou</p>
                             </div>
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept=".pdf,application/pdf"
+                                className="hidden"
+                                onChange={(e) => {
+                                    const selectedFile = e.target.files?.[0];
+                                    if (selectedFile) handleFile(selectedFile);
+                                    e.target.value = "";
+                                }}
+                            />
                             <button
                                 type="button"
+                                onClick={() => fileInputRef.current?.click()}
                                 className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-50 transition-colors cursor-pointer"
                             >
                                 Parcourir mes fichiers
@@ -86,20 +154,22 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                             <p className="text-[10px] text-slate-400">Format PDF uniquement</p>
                         </div>
 
-                        {/* Fichier importé simulant la maquette */}
+                        {/* Fichier sélectionné */}
+                        {file && (
+                        <>
                         <div className="flex items-center justify-between p-3 bg-emerald-50/40 border border-emerald-100 rounded-2xl">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
                                     <FileText className="w-4 h-4" />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-bold text-slate-800">normalisation-bdd.pdf</p>
-                                    <p className="text-[10px] text-slate-400">2.4 Mo · 52 pages</p>
+                                    <p className="text-xs font-bold text-slate-800">{file.name}</p>
+                                    <p className="text-[10px] text-slate-400">{(file.size / 1024 / 1024).toFixed(2)} Mo</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3">
-                                <span className="text-xs font-bold text-emerald-600">Importé</span>
-                                <button type="button" className="text-slate-400 hover:text-slate-600">
+                                <span className="text-xs font-bold text-emerald-600">Sélectionné</span>
+                                <button type="button" onClick={() => setFile(null)} className="text-slate-400 hover:text-slate-600">
                                     <X className="w-4 h-4" />
                                 </button>
                             </div>
@@ -108,6 +178,8 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                         <div className="w-full bg-slate-100 rounded-full h-1 overflow-hidden">
                             <div className="bg-emerald-500 h-full w-full rounded-full" />
                         </div>
+                        </>
+                        )}
                     </div>
 
                     {/* ÉTAPE 2 : Informations sur le cours */}
@@ -131,7 +203,7 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                             <div>
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Domaine / matière</label>
                                 <input 
-                                    type="text" 
+                                    type="number" min="1" required placeholder="Identifiant du domaine" 
                                     value={domain} 
                                     onChange={(e) => setDomain(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
@@ -151,7 +223,7 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                             <div>
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Établissement</label>
                                 <input 
-                                    type="text" 
+                                    type="number" min="1" required placeholder="Identifiant de l’établissement" 
                                     value={university} 
                                     onChange={(e) => setUniversity(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
@@ -160,12 +232,19 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
 
                             <div>
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Type de document</label>
-                                <input 
-                                    type="text" 
+                                <select
                                     value={docType} 
                                     onChange={(e) => setDocType(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
-                                />
+                                >
+                                    <option value="cours_complet">Cours complet</option>
+                                    <option value="fiche_revision">Fiche de révision</option>
+                                    <option value="resume">Résumé</option>
+                                    <option value="sujet">Sujet</option>
+                                    <option value="sujet_corrige">Sujet corrigé</option>
+                                    <option value="correction">Correction</option>
+                                    <option value="autre">Autre</option>
+                                </select>
                             </div>
 
                             <div>
@@ -246,12 +325,18 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                             </span>
                         </label>
 
+                        {error && (
+                            <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-600 whitespace-pre-line">
+                                {error}
+                            </div>
+                        )}
                         {/* Bouton de soumission final */}
                         <button
                             type="submit"
+                            disabled={loading}
                             className="w-full py-3.5 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold text-xs rounded-2xl shadow-sm transition-all cursor-pointer"
                         >
-                            Publier le cours
+                            {loading ? "Publication en cours..." : "Publier le cours"}
                         </button>
                     </div>
 

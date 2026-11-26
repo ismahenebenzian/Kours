@@ -17,6 +17,7 @@ import Quiz from '../components/Dashboard/Quiz/Quiz';
 import Profile from '../components/Dashboard/Home/Profile';
 import CourseDetail from '../pages/CoursDetail';
 import ExploreList from '../components/Dashboard/explore/ExploreList';
+import Commentmarche from '../pages/commentcamarche';
 
 const RootLayout = () => (
     <div className="w-full">
@@ -33,7 +34,7 @@ export const router = createBrowserRouter([
             { path: '/', element: <App /> },
             { path: '/explore', element: <Explore /> },
             { path: '/domains', element: <Domains /> },
-            { path: '/how-it-works', element: <Home /> },
+            { path: '/how-it-works', element: <Commentmarche /> },
             { path: '/auth', element: <Auth isLogin={true} /> },
             { path: '/register', element: <Auth isLogin={false} /> },
 
