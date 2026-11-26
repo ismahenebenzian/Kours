@@ -1,14 +1,20 @@
-// backend/src/routes/profileRoutes.js
 const express = require('express');
 const router = express.Router();
-const requireAuth = require('../middlewares/authMiddleware');
-const profileController = require('../controllers/profileController');
+
+const authMiddleware = require('../middlewares/authMiddleware');
 const { updateProfileValidation } = require('../validators/profileValidator');
+const {
+  getProfile,
+  updateProfile,
+  deleteProfile,
+} = require('../controllers/profileController');
 
-router.use(requireAuth);
+router.get('/me', authMiddleware, getProfile);
+router.put('/me', authMiddleware, updateProfileValidation, updateProfile);
+router.delete('/me', authMiddleware, deleteProfile);
 
-router.get('/me', profileController.getMyProfile);
-router.put('/me', updateProfileValidation, profileController.updateMyProfile);
-router.delete('/me', profileController.deleteMyAccount);
+router.get('/:id', authMiddleware, getProfile);
+router.put('/:id', authMiddleware, updateProfileValidation, updateProfile);
+router.delete('/:id', authMiddleware, deleteProfile);
 
 module.exports = router;
