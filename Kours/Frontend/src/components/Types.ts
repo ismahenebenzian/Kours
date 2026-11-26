@@ -62,3 +62,34 @@ export type JoinRequest = {
     userName: string;
     spaceName: string;
 }
+
+
+export interface HowItWorksStep {
+  stepNumber: number;
+  title: string;
+  description: string;
+  ctaLabel: string;
+  ctaTarget: string;
+}
+
+export interface HowItWorksHighlight {
+  id: string;
+  title: string;
+  text: string;
+}
+
+export interface HowItWorksFaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface HowItWorksResponse {
+  hero: {
+    badge: string;
+    title: string;
+    subtitle: string;
+  };
+  steps: HowItWorksStep[];
+  highlights: HowItWorksHighlight[];
+  faq: HowItWorksFaqItem[];
+}

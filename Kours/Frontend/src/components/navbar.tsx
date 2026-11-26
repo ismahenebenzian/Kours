@@ -26,7 +26,7 @@ export default function Navbar() {
             {/* Boutons d'action */}
             <div className="flex items-center gap-4 text-sm">
                 <Link
-                    to="/Auth"
+                    to="/auth"
                     className="px-5 py-2 rounded-lg border border-white/40 hover:bg-white/10 transition-colors"
                 >
                     Se connecter
