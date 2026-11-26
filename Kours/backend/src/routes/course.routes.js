@@ -1,7 +1,5 @@
 const express = require('express');
-
 const router = express.Router();
-
 const multer = require('multer');
 
 const courseController = require(
@@ -12,6 +10,10 @@ const uploadPdf = require(
     '../middlewares/upload.middleware'
 );
 
+const supabaseAuthMiddleware = require(
+    '../middlewares/supabaseAuthMiddleware'
+);
+
 const { validateCourse } = require(
     '../validators/course.validator'
 );
@@ -20,6 +22,7 @@ const { validateCourse } = require(
 // Déposer un cours
 router.post(
     '/courses',
+    supabaseAuthMiddleware,
     uploadPdf,
     validateCourse,
     courseController.depositCourse

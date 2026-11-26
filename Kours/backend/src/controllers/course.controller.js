@@ -1,4 +1,5 @@
 const courseService = require('../services/course.service');
+const authModel = require('../models/authModel');
 
 const {
     deleteFile,
@@ -31,16 +32,10 @@ async function depositCourse(req, res) {
             });
         }
 
-        // Utilisateur authentifié
-        // ID 1 temporaire pour les tests locaux uniquement
-        const userId = req.user?.id_utilisateur
-            ?? (
-                process.env.NODE_ENV === 'development'
-                    ? 1
-                    : null
-            );
+        // Récupérer l'utilisateur Supabase authentifié
+        const supabaseId = req.supabaseUser?.id;
 
-        if (!userId) {
+        if (!supabaseId) {
 
             await deleteFile(req.file.path);
 
@@ -49,6 +44,23 @@ async function depositCourse(req, res) {
                 message: "Vous devez être connecté."
             });
         }
+
+        // Rechercher l'utilisateur dans MySQL
+        const utilisateur =
+            await authModel.findBySupabaseId(supabaseId);
+
+        if (!utilisateur) {
+
+            await deleteFile(req.file.path);
+
+            return res.status(403).json({
+                success: false,
+                message: "Votre compte n'est pas synchronisé."
+            });
+        }
+
+        // Récupérer son véritable identifiant MySQL
+        const userId = utilisateur.id_utilisateur;
 
         // Enregistrer le cours
         const courseId = await courseService.depositCourse(
@@ -68,6 +80,14 @@ async function depositCourse(req, res) {
         await deleteFile(req.file?.path);
 
         console.error(error);
+
+        if (error.status === 400) {
+
+            return res.status(400).json({
+                success: false,
+                message: error.message
+            });
+        }
 
         return res.status(500).json({
             success: false,

@@ -1,6 +1,38 @@
 const db = require('../config/db');
 
 
+// Rechercher un domaine par son nom
+async function findDomainByName(name) {
+
+    const sql = `
+        SELECT id_domaine
+        FROM domaines
+        WHERE LOWER(TRIM(nom_domaine)) = LOWER(TRIM(?))
+        LIMIT 1
+    `;
+
+    const [rows] = await db.promise().execute(sql, [name]);
+
+    return rows[0];
+}
+
+
+// Rechercher un établissement par son nom
+async function findEstablishmentByName(name) {
+
+    const sql = `
+        SELECT id_etablissement
+        FROM etablissements
+        WHERE LOWER(TRIM(nom_etablissement)) = LOWER(TRIM(?))
+        LIMIT 1
+    `;
+
+    const [rows] = await db.promise().execute(sql, [name]);
+
+    return rows[0];
+}
+
+
 // Déposer un nouveau cours
 async function createCourse(course) {
 
@@ -115,6 +147,8 @@ async function getCourseById(id) {
 
 
 module.exports = {
+    findDomainByName,
+    findEstablishmentByName,
     createCourse,
     getAllCourses,
     getCourseById

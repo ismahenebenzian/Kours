@@ -8,29 +8,65 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
     const [domain, setDomain] = useState("");
     const [level, setLevel] = useState("");
     const [university, setUniversity] = useState("");
-    const [docType, setDocType] = useState("");
+    const [docType, setDocType] = useState("cours_complet");
     const [author, setAuthor] = useState("");
     const [year, setYear] = useState("");
     const [visibility, setVisibility] = useState<"public" | "private">("public");
     const [engagement, setEngagement] = useState(false);
 
     const [file, setFile] = useState<File | null>(null);
+    const [isDragging, setIsDragging] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFile = (selectedFile: File) => {
         setError("");
-        setFile(null);
-        if (selectedFile.type !== "application/pdf" || !selectedFile.name.toLowerCase().endsWith(".pdf")) {
+
+        const isPdf = selectedFile.name.toLowerCase().endsWith(".pdf");
+        const validType =
+            selectedFile.type === "application/pdf" ||
+            selectedFile.type === "";
+
+        if (!isPdf || !validType) {
             setError("Seuls les fichiers PDF sont autorisés.");
             return;
         }
+
         if (selectedFile.size > 10 * 1024 * 1024) {
             setError("Le fichier ne doit pas dépasser 10 Mo.");
             return;
         }
+
         setFile(selectedFile);
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.dataTransfer.dropEffect = "copy";
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+            setIsDragging(false);
+        }
+    };
+
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+
+        const selectedFile = e.dataTransfer.files[0];
+
+        if (selectedFile) {
+            handleFile(selectedFile);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -53,7 +89,7 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
         formData.append("etablissement", university.trim());
         formData.append("type_document", docType);
         formData.append("enseignant", author);
-        formData.append("annee_universitaire", year);
+        formData.append("annee_universitaire", year.trim());
         formData.append("visibilite", visibility === "private" ? "prive" : "public");
         formData.append("engagement", String(engagement));
         try {
@@ -71,7 +107,7 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
     return (
         <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex flex-col overflow-y-auto p-4 sm:p-8 animate-in fade-in duration-200">
             <div className="max-w-4xl mx-auto w-full bg-slate-50 rounded-3xl shadow-2xl p-6 sm:p-10 my-auto space-y-6 relative">
-                
+
                 {/* Petit bouton retour en haut */}
                 <button
                     type="button"
@@ -109,7 +145,7 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    
+
                     {/* ÉTAPE 1 : Ton fichier */}
                     <div className="bg-white rounded-3xl p-6 shadow-xs border border-slate-200/60 space-y-4">
                         <div className="flex items-center gap-2">
@@ -119,13 +155,14 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
 
                         {/* Zone de drag & drop */}
                         <div
-                            onDragOver={(e) => e.preventDefault()}
-                            onDrop={(e) => {
-                                e.preventDefault();
-                                const selectedFile = e.dataTransfer.files[0];
-                                if (selectedFile) handleFile(selectedFile);
-                            }}
-                            className="border-2 border-dashed border-indigo-200 bg-indigo-50/20 rounded-2xl p-8 text-center space-y-3">
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            className={`border-2 border-dashed rounded-2xl p-8 text-center space-y-3 ${isDragging
+                                    ? "border-indigo-600 bg-indigo-100"
+                                    : "border-indigo-200 bg-indigo-50/20"
+                                }`}
+                        >
                             <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto">
                                 <Upload className="w-5 h-5" />
                             </div>
@@ -156,29 +193,29 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
 
                         {/* Fichier sélectionné */}
                         {file && (
-                        <>
-                        <div className="flex items-center justify-between p-3 bg-emerald-50/40 border border-emerald-100 rounded-2xl">
-                            <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                                    <FileText className="w-4 h-4" />
+                            <>
+                                <div className="flex items-center justify-between p-3 bg-emerald-50/40 border border-emerald-100 rounded-2xl">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                            <FileText className="w-4 h-4" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-bold text-slate-800">{file.name}</p>
+                                            <p className="text-[10px] text-slate-400">{(file.size / 1024 / 1024).toFixed(2)} Mo</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-xs font-bold text-emerald-600">Sélectionné</span>
+                                        <button type="button" onClick={() => setFile(null)} className="text-slate-400 hover:text-slate-600">
+                                            <X className="w-4 h-4" />
+                                        </button>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p className="text-xs font-bold text-slate-800">{file.name}</p>
-                                    <p className="text-[10px] text-slate-400">{(file.size / 1024 / 1024).toFixed(2)} Mo</p>
+                                {/* Barre de progression verte du fichier */}
+                                <div className="w-full bg-slate-100 rounded-full h-1 overflow-hidden">
+                                    <div className="bg-emerald-500 h-full w-full rounded-full" />
                                 </div>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <span className="text-xs font-bold text-emerald-600">Sélectionné</span>
-                                <button type="button" onClick={() => setFile(null)} className="text-slate-400 hover:text-slate-600">
-                                    <X className="w-4 h-4" />
-                                </button>
-                            </div>
-                        </div>
-                        {/* Barre de progression verte du fichier */}
-                        <div className="w-full bg-slate-100 rounded-full h-1 overflow-hidden">
-                            <div className="bg-emerald-500 h-full w-full rounded-full" />
-                        </div>
-                        </>
+                            </>
                         )}
                     </div>
 
@@ -192,10 +229,10 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="md:col-span-2">
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Titre</label>
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     placeholder="Ex : Algorithmique"
-                                    value={title} 
+                                    value={title}
                                     onChange={(e) => setTitle(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                                 />
@@ -203,8 +240,8 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
 
                             <div>
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Domaine / matière</label>
-                                <input 
-                                    type="text" required placeholder="Ex : Informatique" 
+                                <input
+                                    type="text" required placeholder="Ex : Informatique"
                                     value={domain}
                                     onChange={(e) => setDomain(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
@@ -213,9 +250,9 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
 
                             <div>
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Niveau</label>
-                                <input 
-                                    type="text" 
-                                    value={level} 
+                                <input
+                                    type="text"
+                                    value={level}
                                     placeholder="Ex : BUT 2"
                                     onChange={(e) => setLevel(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
@@ -224,8 +261,8 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
 
                             <div>
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Établissement</label>
-                                <input 
-                                    type="text" required placeholder="Ex : IUT du Creusot" 
+                                <input
+                                    type="text" required placeholder="Ex : IUT du Creusot"
                                     value={university}
                                     onChange={(e) => setUniversity(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
@@ -235,7 +272,7 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                             <div>
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Type de document</label>
                                 <select
-                                    value={docType} 
+                                    value={docType}
                                     onChange={(e) => setDocType(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
                                 >
@@ -251,9 +288,9 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
 
                             <div>
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Auteur ou enseignant</label>
-                                <input 
-                                    type="text" 
-                                    value={author} 
+                                <input
+                                    type="text"
+                                    value={author}
                                     placeholder="Nom de l'enseignant"
                                     onChange={(e) => setAuthor(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
@@ -263,9 +300,9 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
 
                             <div>
                                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">Année universitaire</label>
-                                <input 
-                                    type="text" 
-                                    value={year} 
+                                <input
+                                    type="text"
+                                    value={year}
                                     placeholder="Ex : 2025-2026"
                                     onChange={(e) => setYear(e.target.value)}
                                     className="w-full px-4 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
@@ -284,11 +321,10 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
 
                         {/* Options de visibilité */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div 
+                            <div
                                 onClick={() => setVisibility("public")}
-                                className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
-                                    visibility === "public" ? "border-indigo-600 bg-indigo-50/20" : "border-slate-200 bg-white"
-                                }`}
+                                className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${visibility === "public" ? "border-indigo-600 bg-indigo-50/20" : "border-slate-200 bg-white"
+                                    }`}
                             >
                                 <div className="flex items-center gap-2 mb-1">
                                     <input type="radio" checked={visibility === "public"} readOnly className="text-indigo-600" />
@@ -297,11 +333,10 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
                                 <p className="text-[11px] text-slate-500 pl-5">Visible par tous les étudiants de Rezoer.</p>
                             </div>
 
-                            <div 
+                            <div
                                 onClick={() => setVisibility("private")}
-                                className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
-                                    visibility === "private" ? "border-indigo-600 bg-indigo-50/20" : "border-slate-200 bg-white"
-                                }`}
+                                className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${visibility === "private" ? "border-indigo-600 bg-indigo-50/20" : "border-slate-200 bg-white"
+                                    }`}
                             >
                                 <div className="flex items-center gap-2 mb-1">
                                     <input type="radio" checked={visibility === "private"} readOnly className="text-indigo-600" />
@@ -318,11 +353,11 @@ export default function AddCoursForm({ setAddcoursDisplay }: { setAddcoursDispla
 
                         {/* Checkbox d'engagement */}
                         <label className="flex items-start gap-3 p-4 bg-amber-50/30 border border-amber-100 rounded-2xl cursor-pointer">
-                            <input 
-                                type="checkbox" 
-                                checked={engagement} 
+                            <input
+                                type="checkbox"
+                                checked={engagement}
                                 onChange={(e) => setEngagement(e.target.checked)}
-                                className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500" 
+                                className="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500"
                             />
                             <span className="text-[11px] text-slate-700 leading-relaxed">
                                 <strong className="text-slate-900">Engagement sur l'honneur.</strong> Je certifie être l'auteur de ce document, avoir l'accord de son auteur ou qu'il est sous licence libre. Je respecte le droit d'auteur.
