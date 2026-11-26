@@ -1,6 +1,8 @@
+
 import { useState } from 'react';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
-import { supabase } from '../../SupabaseClient'; // Ajuste le chemin selon ton dossier
+import { supabase } from '../../SupabaseClient';
+import { syncUser } from "../../services/authService";
 
 interface RegisterProps {
     setIsLogin: (isLogin: boolean) => void;
@@ -20,28 +22,70 @@ export default function Register({ setIsLogin }: RegisterProps) {
         setMessage(null);
 
         try {
-            const { error } = await supabase.auth.signUp({
-                email,
+            // Vérification du nom et du prénom
+            if (!nom.trim() || !prenom.trim()) {
+                throw new Error("Le nom et le prénom sont obligatoires.");
+            }
+
+            if (nom.trim().length > 100 || prenom.trim().length > 100) {
+                throw new Error("Le nom et le prénom sont trop longs.");
+            }
+
+            if (email.trim().length > 150) {
+                throw new Error("L'adresse e-mail est trop longue.");
+            }
+
+            // Création du compte Supabase
+            const { data, error } = await supabase.auth.signUp({
+                email: email.trim(),
                 password,
                 options: {
                     data: {
-                        nom,
-                        prenom,
+                        nom: nom.trim(),
+                        prenom: prenom.trim(),
                     }
                 }
             });
 
             if (error) throw error;
 
-            setMessage({ text: "Compte créé avec succès ! Tu peux te connecter.", type: 'success' });
+            // Si Supabase fournit directement une session
+            if (data.session) {
+                try {
+                    await syncUser(data.session.access_token);
+                } catch {
+                    throw new Error(
+                        "Compte Supabase créé, mais synchronisation impossible. Réessaie de te connecter."
+                    );
+                } finally {
+                    await supabase.auth.signOut();
+                }
 
-            setTimeout(() => {
-                setIsLogin(true);
-            }, 1500);
+                setMessage({
+                    text: "Compte créé avec succès ! Tu peux te connecter.",
+                    type: 'success'
+                });
 
-        } catch (error: any) {
-            setMessage({ text: error.message || "Erreur lors de l'inscription.", type: 'error' });
-        } finally {
+                setTimeout(() => {
+                    setIsLogin(true);
+                }, 1500);
+
+            } else {
+                // Si la confirmation par e-mail est obligatoire
+                setMessage({
+                    text: "Vérifie ta boîte mail pour confirmer ton adresse, puis connecte-toi.",
+                    type: 'success'
+                });
+                setLoading(false);
+            }
+
+        } catch (error: unknown) {
+            setMessage({
+                text: error instanceof Error
+                    ? error.message
+                    : "Erreur lors de l'inscription.",
+                type: 'error'
+            });
             setLoading(false);
         }
     };

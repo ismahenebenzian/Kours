@@ -2,12 +2,12 @@
 const express = require('express');
 const profileRoutes = require('./src/routes/profileRoutes');
 const howItWorksRoutes = require('./src/routes/howItWorksRoutes');
-
+const authRoutes = require('./src/routes/authRoutes');
 const app = express();
 
 app.use(express.json());
 
-app.use('/api/how-it-works', howItWorksRoutes);
+
 
 // CORS simple pour autoriser le frontend Vite/React en local
 app.use((req, res, next) => {
@@ -23,9 +23,9 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.json({ message: 'Serveur Kours opérationnel !' });
 });
-
+app.use('/api/how-it-works', howItWorksRoutes);
 app.use('/api/profile', profileRoutes);
-
+app.use('/api/auth', authRoutes);
 // Gestionnaire d'erreurs global
 app.use((err, req, res, next) => {
   console.error(err);

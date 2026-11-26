@@ -1,8 +1,13 @@
+import { useOutletContext } from "react-router-dom";
 import BureauImage from "../../../assets/dashboard/bureauImage.png";
 import SqlImage from "../../../assets/dashboard/SqlImage.svg";
 import SeggestionCard from "../Home/Seggestion-card";
 import { SparklesIcon, SearchIcon, Upload, Target } from "lucide-react";
 export default function DashHome() {
+    const utilisateur = useOutletContext<{
+        prenom: string;
+    } | null>();
+
     return (
     
                 <div className="p-6 sm:p-8 space-y-6">
@@ -11,7 +16,7 @@ export default function DashHome() {
                     <div className="rounded-3xl p-6 sm:p-8 text-white relative overflow-hidden shadow-sm flex flex-col md:flex-row justify-between items-center" style={{ backgroundImage: `url(${BureauImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                         <div className="max-w-xl z-10 mb-6 md:mb-0">
                             <h2 className="text-2xl sm:text-3xl font-extrabold flex items-center gap-2">
-                                Bonjour camille <SparklesIcon className="w-5 h-5 text-amber-400" />
+                                Bonjour {utilisateur?.prenom} <SparklesIcon className="w-5 h-5 text-amber-400" />
                             </h2>
                             <p className="text-xs sm:text-sm text-slate-300 mt-2">
                                 Retrouve tes cours et poursuis tes révisions.

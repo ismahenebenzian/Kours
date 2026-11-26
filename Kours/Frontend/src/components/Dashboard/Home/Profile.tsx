@@ -1,5 +1,14 @@
-
+import { useOutletContext } from "react-router-dom";
 export default function Profile() {
+  const utilisateur = useOutletContext<{
+    nom: string;
+    prenom: string;
+    email: string;
+    role: string;
+  } | null>();
+
+  if (!utilisateur) return null;
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] p-8 w-full text-gray-800">
       {/* Titre de la page */}
@@ -17,12 +26,14 @@ export default function Profile() {
             </svg>
           </div>
 
-          <h2 className="font-bold text-gray-900 text-base">Camille</h2>
+          <h2 className="font-bold text-gray-900 text-base">
+            {utilisateur.prenom} {utilisateur.nom}
+          </h2>
           <p className="text-[11px] text-gray-400 mt-1">IUT de Nevers - BUT 2 Informatique</p>
 
           {/* Badge Contributeur */}
           <span className="inline-block bg-emerald-50 text-emerald-500 text-[11px] font-medium px-3 py-1 rounded-full mt-3">
-            Contributeur
+            {utilisateur.role}
           </span>
 
           {/* Barre de progression Lectures illimitées */}
@@ -66,7 +77,7 @@ export default function Profile() {
                 <label className="block text-[11px] font-medium text-gray-700 mb-1.5">Prénom</label>
                 <input 
                   type="text" 
-                  defaultValue="Camille" 
+                  defaultValue={utilisateur.prenom}
                   className="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-400/50 transition-all"
                 />
               </div>
@@ -76,7 +87,7 @@ export default function Profile() {
                 <label className="block text-[11px] font-medium text-gray-700 mb-1.5">Nom</label>
                 <input 
                   type="text" 
-                  placeholder="[Nom]" 
+                  defaultValue={utilisateur.nom} 
                   className="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 transition-all"
                 />
               </div>
@@ -86,7 +97,7 @@ export default function Profile() {
                 <label className="block text-[11px] font-medium text-gray-700 mb-1.5">Email</label>
                 <input 
                   type="email" 
-                  defaultValue="camille@(domaine).fr" 
+                  defaultValue={utilisateur.email} 
                   className="w-full text-xs border border-gray-200 rounded-xl px-3 py-2.5 text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-400/50 transition-all"
                 />
               </div>

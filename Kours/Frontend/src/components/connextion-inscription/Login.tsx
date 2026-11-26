@@ -1,7 +1,9 @@
+
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
 import { supabase } from '../../SupabaseClient';
+import { syncUser } from "../../services/authService";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -16,22 +18,43 @@ export default function Login() {
         setMessage(null);
 
         try {
-            const { error } = await supabase.auth.signInWithPassword({
+            // Authentification avec Supabase
+            const { data, error } = await supabase.auth.signInWithPassword({
                 email,
                 password,
             });
 
             if (error) throw error;
 
-            setMessage({ text: "Connexion réussie ! Redirection...", type: 'success' });
+            // Vérification de la session
+            if (!data.session) {
+                throw new Error("Session introuvable.");
+            }
+
+            // Synchronisation avec le backend MySQL
+            try {
+                await syncUser(data.session.access_token);
+            } catch (syncError) {
+                await supabase.auth.signOut();
+                throw syncError;
+            }
+
+            setMessage({
+                text: "Connexion réussie ! Redirection...",
+                type: 'success'
+            });
 
             setTimeout(() => {
                 navigate('/dashboard');
             }, 1000);
 
-        } catch (error: any) {
-            setMessage({ text: error.message || "Identifiants incorrects.", type: 'error' });
-        } finally {
+        } catch (error: unknown) {
+            setMessage({
+                text: error instanceof Error
+                    ? error.message
+                    : "Erreur lors de la connexion.",
+                type: 'error'
+            });
             setLoading(false);
         }
     };
