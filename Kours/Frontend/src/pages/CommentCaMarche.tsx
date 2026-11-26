@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import { fetchHowItWorks } from '../services/howItWorksApi';
-import type { HowItWorksResponse } from '../components/Types';
+//import { Weight } from "lucide-react";
 
 export default function CommentCaMarche() {
   const [data, setData] = useState<HowItWorksResponse | null>(null);
