@@ -13,7 +13,7 @@ import {
 import { NavLink, Outlet, Link } from "react-router-dom";
 import Logo from "../components/Logo";
 import background from "../assets/Dashboard/background.svg";
-import { ShareCourseButton } from "../components/Dashboard/CTA-btn";
+import { ShareCourseButton } from "../components/Dashboard/Home/CTA-btn";
 
 export default function Dashboard() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

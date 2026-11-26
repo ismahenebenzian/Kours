@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {  Plus, X } from 'lucide-react';
-import PopUp from '../PopUp';
-import type {Space,JoinRequest} from '../Types';
+import PopUp from '../../PopUp';
+import type {Space,JoinRequest} from '../../Types';
 import EspacesCard from './EspacesCard';
 import Demande from './Demande';
 

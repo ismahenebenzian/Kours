@@ -1,6 +1,6 @@
-import BureauImage from "../../assets/dashboard/bureauImage.png";
-import SqlImage from "../../assets/dashboard/SqlImage.svg";
-import SeggestionCard from "./Seggestion-card";
+import BureauImage from "../../../assets/dashboard/bureauImage.png";
+import SqlImage from "../../../assets/dashboard/SqlImage.svg";
+import SeggestionCard from "../Home/Seggestion-card";
 import { SparklesIcon, SearchIcon, Upload, Target } from "lucide-react";
 export default function DashHome() {
     return (

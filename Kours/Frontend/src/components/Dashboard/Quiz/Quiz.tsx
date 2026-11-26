@@ -9,9 +9,57 @@ import {
     X,
 } from 'lucide-react';
 import QuizDemo from './QuizDemo';
-import type { Question,CreateQuizProps, } from '../Types';
-import GenererAvecIA from "../GenererAvecIA"
+import type { Question, CreateQuizProps, } from '../../Types';
+import GenererAvecIA from "../../GenererAvecIA"
 
+
+
+const courseText = `
+Cours : Introduction à Linux
+
+Linux est un système d'exploitation libre et open source.
+Il est basé sur un noyau créé par Linus Torvalds en 1991.
+
+Un système Linux est composé principalement du noyau,
+des bibliothèques système, des utilitaires et des applications.
+
+Le terminal permet à l'utilisateur d'interagir avec l   e système
+à l'aide de commandes.
+
+Quelques commandes Linux importantes :
+
+- pwd : affiche le répertoire courant.
+- ls : liste les fichiers et dossiers.
+- cd : permet de changer de répertoire.
+- mkdir : crée un nouveau dossier.
+- touch : crée un fichier.
+- cp : copie des fichiers.
+- mv : déplace ou renomme des fichiers.
+- rm : supprime des fichiers.
+- cat : affiche le contenu d'un fichier.
+- sudo : exécute une commande avec des privilèges administrateur.
+
+Dans Linux, les fichiers et dossiers sont organisés dans une
+arborescence qui commence à la racine, représentée par /.
+
+Le répertoire /home contient généralement les dossiers personnels
+des utilisateurs.
+
+Le répertoire /etc contient les fichiers de configuration du système.
+
+Le répertoire /bin contient des commandes essentielles.
+
+Les permissions Linux déterminent qui peut lire, modifier ou
+exécuter un fichier.
+
+Les trois catégories de permissions sont :
+- r : lecture.
+- w : écriture.
+- x : exécution.
+
+Linux est utilisé dans les serveurs, les ordinateurs personnels,
+les systèmes embarqués et les infrastructures informatiques.
+`;
 export default function Quiz({ onSave, onPublish }: CreateQuizProps) {
     const [quizTitle, setQuizTitle] = useState("QCM Linux débutant");
     const [associatedCourse, setAssociatedCourse] = useState("Systeme");
@@ -289,7 +337,12 @@ export default function Quiz({ onSave, onPublish }: CreateQuizProps) {
                     {/* SIDEBAR (IA & PUBLICATION) */}
                     <div className="space-y-6">
 
-                        <GenererAvecIA/>
+                        <GenererAvecIA
+                            courseText={courseText}
+                            onGenerate={(generatedQuestions) => {
+                                setQuestions(generatedQuestions);
+                            }}
+                        />
 
                         <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
                             <h2 className="font-extrabold text-slate-900 text-base">

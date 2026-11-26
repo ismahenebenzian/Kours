@@ -10,14 +10,14 @@ import ProtectedRoute from './ProtectedRoute';
 
 // Imports pour le Dashboard
 import DashboardLayout from '../pages/Dashboard'; // Ton composant modifié ci-dessus
-import DashHome from '../components/Dashboard/Dash-home';
-import MesCours from '../components/Dashboard/MesCours';
-import Notes from '../components/Dashboard/Note';
-import EspacesPrives from '../components/Dashboard/EspacesPrive';
-import DashExplore from '../components/Dashboard/Explore';
-import Quiz from '../components/Dashboard/Quiz';
-import Profile from '../components/Dashboard/Profile';
+import DashHome from '../components/Dashboard/Home/Dash-home';
+import MesCours from '../components/Dashboard/MesCours/MesCours';
+import Notes from '../components/Dashboard/Notes/Note';
+import EspacesPrives from '../components/Dashboard/EspacePrive/EspacesPrive';
+import Quiz from '../components/Dashboard/Quiz/Quiz';
+import Profile from '../components/Dashboard/Home/Profile';
 import CourseDetail from '../pages/CoursDetail';
+import ExploreList from '../components/Dashboard/explore/ExploreList';
 
 const RootLayout = () => (
     <div className="w-full">
@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
                             { path: 'mes-cours', element: <MesCours /> },
                             { path: 'notes', element: <Notes /> },
                             { path: 'espaces-prives', element: <EspacesPrives /> },
-                            { path: 'explorer', element: <DashExplore /> }, 
+                            { path: 'explorer', element: <ExploreList /> }, 
                             
                             { path: 'quiz', element: <Quiz /> },
                             { path: 'profil', element: <Profile /> },
