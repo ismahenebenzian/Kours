@@ -1,0 +1,273 @@
+/* Page Comment ça marche */
+
+.how-it-works {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding-bottom: 70px;
+  background: #f8fafc;
+  color: #0B1440;
+}
+
+.how-it-works,
+.how-it-works * {
+  box-sizing: border-box;
+}
+
+/* Introduction */
+
+.how-it-works__hero {
+  text-align: center;
+  padding: 60px 24px 45px;
+}
+
+.how-it-works__badge {
+  display: inline-block;
+  background: #e8eeff;
+  color: #2F5BEA;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.how-it-works__hero h1 {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #0B1440;
+  margin: 0 0 16px;
+}
+
+.how-it-works__hero p {
+  max-width: 650px;
+  margin: 0 auto;
+  color: #64748b;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* Les trois étapes */
+
+.how-it-works__steps {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.how-it-works .step-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 30px 24px;
+  min-height: 220px;
+  min-width: 0;
+  box-shadow: 0 4px 15px rgba(11, 20, 64, 0.04);
+  transition: transform 0.2s ease;
+}
+
+.how-it-works .step-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Numéros des étapes */
+
+.how-it-works .step-card__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: #e8eeff;
+  color: #2F5BEA;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.how-it-works .step-card:nth-child(2) .step-card__number {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.how-it-works .step-card:nth-child(3) .step-card__number {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.how-it-works .step-card h2 {
+  font-size: 21px;
+  font-weight: 700;
+  color: #0B1440;
+  margin: 0 0 12px;
+}
+
+.how-it-works .step-card p {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Masquer les boutons répétitifs */
+
+.how-it-works .step-card__cta {
+  display: none;
+}
+
+/* Masquer la section des points clés */
+
+.how-it-works__highlights {
+  display: none;
+}
+
+/* Questions fréquentes */
+
+.how-it-works__faq {
+  width: 100%;
+  max-width: 850px;
+  margin: 60px auto 0;
+  padding: 0 24px;
+}
+
+.how-it-works__faq > h2 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 800;
+  color: #0B1440;
+  margin: 0 0 30px;
+}
+
+.how-it-works .faq-item {
+  width: 100%;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.how-it-works .faq-item:hover {
+  border-color: #b9c9ff;
+}
+
+.how-it-works .faq-item button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  padding: 20px 24px;
+  background: transparent;
+  border: none;
+  color: #0B1440;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Flèche de la FAQ */
+
+.how-it-works .faq-item button::after {
+  content: "";
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid #2F5BEA;
+  border-bottom: 2px solid #2F5BEA;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.how-it-works .faq-item button[aria-expanded="true"] {
+  color: #2F5BEA;
+  background: #f0f4ff;
+}
+
+.how-it-works .faq-item button[aria-expanded="true"]::after {
+  transform: rotate(225deg);
+}
+
+.how-it-works .faq-item p {
+  padding: 18px 24px 22px;
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.how-it-works .faq-item button:focus-visible {
+  outline: 2px solid #2F5BEA;
+  outline-offset: -3px;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .how-it-works__steps {
+    gap: 16px;
+  }
+
+  .how-it-works .step-card {
+    padding: 24px 16px;
+  }
+}
+
+@media (max-width: 650px) {
+  .how-it-works__hero {
+    padding: 40px 18px 30px;
+  }
+
+  .how-it-works__steps {
+    grid-template-columns: 1fr;
+    padding: 0 18px;
+  }
+
+  .how-it-works .step-card {
+    min-height: auto;
+  }
+
+  .how-it-works__faq {
+    margin-top: 40px;
+    padding: 0 18px;
+  }
+
+  .how-it-works__faq > h2 {
+    font-size: 24px;
+  }
+
+  .how-it-works .faq-item button {
+    padding: 16px;
+    font-size: 14px;
+  }
+
+  .how-it-works .faq-item p {
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .how-it-works .step-card,
+  .how-it-works .faq-item button::after {
+    transition: none;
+  }
+
+  .how-it-works .step-card:hover {
+    transform: none;
+  }
+}

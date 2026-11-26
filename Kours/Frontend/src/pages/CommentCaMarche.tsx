@@ -1,4 +1,8 @@
 //import { Weight } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { fetchHowItWorks } from '../services/howItWorksApi';
+import type { HowItWorksResponse } from '../components/Types';
+import '../styles/CommentCaMarche.css';
 
 export default function CommentCaMarche() {
   const [data, setData] = useState<HowItWorksResponse | null>(null);
@@ -94,4 +98,4 @@ export default function CommentCaMarche() {
       </section>
     </main>
   );
-}
+} 
