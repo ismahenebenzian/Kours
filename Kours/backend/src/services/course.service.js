@@ -8,6 +8,8 @@ async function depositCourse(data, file, userId) {
 
         titre: data.titre.trim(),
 
+        niveau: data.niveau.trim(),
+
         description: data.description?.trim() || null,
 
         chemin_fichier_pdf:

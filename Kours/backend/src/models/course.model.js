@@ -7,6 +7,7 @@ async function createCourse(course) {
     const sql = `
         INSERT INTO documents (
             titre,
+            niveau,
             description,
             chemin_fichier_pdf,
             auteur_enseignant,
@@ -19,11 +20,12 @@ async function createCourse(course) {
             id_domaine,
             id_etablissement
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
         course.titre,
+        course.niveau,
         course.description,
         course.chemin_fichier_pdf,
         course.auteur_enseignant,
@@ -50,6 +52,7 @@ async function getAllCourses() {
         SELECT
             d.id_document,
             d.titre,
+            d.niveau,
             d.description,
             d.type_document,
             d.auteur_enseignant,
@@ -88,6 +91,7 @@ async function getCourseById(id) {
         SELECT
             id_document,
             titre,
+            niveau,
             description,
             auteur_enseignant,
             annee_academique,
