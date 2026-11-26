@@ -1,7 +1,7 @@
 // backend/src/routes/profileRoutes.js
 const express = require('express');
 const router = express.Router();
-const requireAuth = require('../middleware/authMiddleware');
+const requireAuth = require('../middlewares/authMiddleware');
 const profileController = require('../controllers/profileController');
 const { updateProfileValidation } = require('../validators/profileValidator');
 
